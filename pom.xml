@@ -10,4 +10,14 @@
         <maven.compiler.source>13</maven.compiler.source>
         <maven.compiler.target>13</maven.compiler.target>
     </properties>
+    <build>
+        <plugins>
+            
+        </plugins>
+    </build>
+    <scm>
+    <connection>scm:git:https://github.com/CesarVelascoAriza/compi/master</connection>
+    <developerConnection>scm:git:https://github.com/CesarVelascoAriza/compi/master</developerConnection>
+    <url>https://github.com/CesarVelascoAriza/compi</url>
+  </scm>
 </project>
