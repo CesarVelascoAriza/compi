@@ -24,5 +24,27 @@ public class SimbolosEspeciales {
             simbolosEspeciales++;
         }
     }
-    
+    public  void analizarPalabrasEntreMayusculasMinusculas(String palabra, int a) {
+
+        if (a < palabra.length()) {
+            analizarPa(palabra.charAt(a), a);
+            a++;
+            analizarPalabrasEntreMayusculasMinusculas(palabra, a);
+        }
+    }
+
+    public  void analizarPa(Character caracter, int a) {
+        if (Character.isLetter(caracter)) {
+            if (Character.isLowerCase(caracter)) {
+                System.out.println(caracter);
+            }
+            if (Character.isUpperCase(caracter)) {
+                System.out.println(caracter);
+            }
+        }else if(Character.isDigit(caracter)){
+            System.out.println("es digito");
+        } else{
+                System.out.println("otro caracter");
+        } 
+    }
 }
