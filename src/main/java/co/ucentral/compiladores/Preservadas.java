@@ -5,6 +5,8 @@
  */
 package co.ucentral.compiladores;
 
+import java.util.Formatter;
+
 /**
  *
  * @author Sala_09
@@ -15,6 +17,7 @@ public class Preservadas {
     private boolean ispalabraReservada;
     private int cantidad;
 
+    
     public String getPalabra() {
         return palabra;
     }
@@ -40,6 +43,8 @@ public class Preservadas {
     }
     
     public String toString(){
+        
+        System.out.printf("Palabra \t Reservada \t catidad\n");
         return String.format(" %s \t  %s \t  %s \n ", getPalabra(),isIspalabraReservada(), getCantidad());
         
     
