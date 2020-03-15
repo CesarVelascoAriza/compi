@@ -66,7 +66,7 @@ public class FormularioArchivo extends JFrame {
         limpiar = new JButton();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
-
+        this.setTitle("PROGRAMA 1");
         JpanelArchivo.setBorder(BorderFactory.createTitledBorder("Archivo"));
 
         rutaArchivo.setText("Ruta Archivo");
