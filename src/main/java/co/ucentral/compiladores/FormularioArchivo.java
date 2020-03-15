@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -100,7 +101,13 @@ public class FormularioArchivo extends JFrame {
                                 .addComponent(limpiar))
                         .addContainerGap(31, Short.MAX_VALUE))
         );
-
+        jTableDatos.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {null, null, null, null}},
+                new String[]{
+                    "Palabra", "Es Reservada", "Cantidad"
+                }
+        ));
         jPaneltabla.setBorder(BorderFactory.createTitledBorder("Tabla"));
 
         jScrollPane1.setViewportView(jTableDatos);
@@ -199,19 +206,24 @@ public class FormularioArchivo extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == analizar) {
-                archivo.setRuta(jTextFieldMuestraRuta.getText());
-                try {
-                    archivo.abrirArchivo();
-                    archivo.leerRegistros();
-                    jTableDatos.setModel(archivo.getData());
-                    archivo.abrirArchivo();
-                    archivo.leer();
-                    jTableDatosCuentas.setModel(archivo.getDatatableCuenta());
-                } catch (FileNotFoundException ex) {
+                if (!jTextFieldMuestraRuta.getText().isEmpty()) {
+                    archivo.setRuta(jTextFieldMuestraRuta.getText());
+                    try {
+                        archivo.abrirArchivo();
+                        archivo.leerRegistros();
+                        jTableDatos.setModel(archivo.getData());
+                        archivo.abrirArchivo();
+                        archivo.leer();
+                        jTableDatosCuentas.setModel(archivo.getDatatableCuenta());
+                    } catch (FileNotFoundException ex) {
 
-                } finally {
+                    } finally {
 
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "El campo esta vacio");
                 }
+
             }
             if (e.getSource() == examinar) {
                 int selection = filechooser.showOpenDialog(JpanelArchivo);
@@ -228,9 +240,9 @@ public class FormularioArchivo extends JFrame {
                 analizar.setEnabled(false);
                 jTableDatos.setModel(new javax.swing.table.DefaultTableModel(
                         new Object[][]{
-                            {null, null,null, null}},
+                            {null, null, null, null}},
                         new String[]{
-                           "Palabra", "Es Reservada", "Cantidad"
+                            "Palabra", "Es Reservada", "Cantidad"
                         }
                 ));
                 jTableDatosCuentas.setModel(new javax.swing.table.DefaultTableModel(
