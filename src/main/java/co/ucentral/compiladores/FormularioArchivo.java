@@ -206,7 +206,7 @@ public class FormularioArchivo extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == analizar) {
-                if (!jTextFieldMuestraRuta.getText().isEmpty()) {
+                
                     archivo.setRuta(jTextFieldMuestraRuta.getText());
                     try {
                         archivo.abrirArchivo();
@@ -217,13 +217,8 @@ public class FormularioArchivo extends JFrame {
                         jTableDatosCuentas.setModel(archivo.getDatatableCuenta());
                     } catch (FileNotFoundException ex) {
 
-                    } finally {
-
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null, "El campo esta vacio");
-                }
-
+                
             }
             if (e.getSource() == examinar) {
                 int selection = filechooser.showOpenDialog(JpanelArchivo);
