@@ -186,11 +186,7 @@ public class FormularioArchivo extends JFrame {
         pack();
     }
 
-    public static void main(String args[]) {
-        FormularioArchivo frame = new FormularioArchivo();
-        frame.setSize(1024, 780);
-        frame.setVisible(true);
-    }
+   
 
     private class ManejadorFormulario implements ActionListener {
 
