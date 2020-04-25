@@ -35,7 +35,6 @@ public class PalabrasReservadas {
         listaPalabras.add("variables");
         listaPalabras.add("inicio");
         listaPalabras.add("fmientras");
-
     }
 
     public boolean isPalabraReservada(String palabra) {
@@ -43,6 +42,7 @@ public class PalabrasReservadas {
         for (String listaPalabra : listaPalabras) {
             if (palabra.equals(listaPalabra)) {
                 reservada = true;
+                break;
             }
 
         }
