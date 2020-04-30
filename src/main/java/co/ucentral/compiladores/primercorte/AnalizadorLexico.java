@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.ucentral.compiladores;
+package co.ucentral.compiladores.primercorte;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 /**

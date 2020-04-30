@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.ucentral.compiladores;
+package co.ucentral.compiladores.primercorte;
 
 import java.io.File;
 import java.io.FileNotFoundException;

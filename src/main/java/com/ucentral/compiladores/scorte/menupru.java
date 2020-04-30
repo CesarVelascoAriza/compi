@@ -5,6 +5,8 @@
  */
 package com.ucentral.compiladores.scorte;
 
+import co.ucentral.compiladores.primercorte.AnalizadorLexico;
+import co.ucentral.edu.analizadores.Lexico;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -267,12 +269,9 @@ public class menupru extends JFrame implements ActionListener {
     }
 
     public void analizar() {
-        
+        Lexico l= new Lexico();
+        l.analizarTextoLexico(area1.getText());
     }
 
-    public static void main(String[] args) {
-        menupru m = new menupru();
-        m.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    }
+    
 }
