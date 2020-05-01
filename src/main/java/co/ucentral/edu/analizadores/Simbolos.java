@@ -11,6 +11,8 @@ package co.ucentral.edu.analizadores;
  */
 public class Simbolos {
     
+    private String[] palabrasReservadas={"prog","haga","lea","escriba",
+        "variables","var", "inicio" ,"fprogram" };
     
     public boolean analizarOperadoresMatematicos(Character caracter) {
         if (caracter.equals('*')) {
@@ -89,4 +91,16 @@ public class Simbolos {
             return  false;
         }
     }
+    
+    public boolean palabrasReservadas(String palabra){
+        boolean ispalabra=false;
+        for (String palabrasReservada : palabrasReservadas) {
+            if(palabrasReservada.equals(palabra)){
+                ispalabra= true;
+                break;
+            }
+        }
+        return ispalabra;
+    }
+    
 }
