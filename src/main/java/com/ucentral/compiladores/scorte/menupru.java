@@ -269,8 +269,7 @@ public class menupru extends JFrame implements ActionListener {
     }
 
     public void analizar() {
-        Lexico l= new Lexico();
-        l.analizarTextoLexico(area1.getText());
+        
     }
 
     
