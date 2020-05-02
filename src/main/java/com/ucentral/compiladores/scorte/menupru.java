@@ -57,6 +57,7 @@ public class menupru extends JFrame implements ActionListener {
     private boolean valid;
 
     boolean essalvar = true;
+
     String nombre = " ";
 
     public menupru() {

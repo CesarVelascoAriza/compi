@@ -11,8 +11,17 @@ package co.ucentral.edu.analizadores;
  */
 public class Simbolos {
     
-    private String[] palabrasReservadas={"prog","haga","lea","escriba",
+    public String[] palabrasReservadas={"prog","haga","lea","escriba",
         "variables","var", "inicio" ,"fprogram" };
+    
+    public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^"};
+    
+    public String[] caracteresEspeciales={"@" , "." , ";" , "," , "{" , "}" , "(" , ")" };
+    
+    public String[] operadoresRelComplejos= {">=" , "<=" , "<>"};
+    
+    public String[] operadoresRel= {">" , "<" };
+    
     
     public boolean analizarOperadoresMatematicos(Character caracter) {
         if (caracter.equals('*')) {
@@ -92,9 +101,21 @@ public class Simbolos {
         }
     }
     
-    public boolean palabrasReservadas(String palabra){
+//    public boolean palabrasReservadas(String palabra, String [] tipo){
+//        boolean ispalabra=false;
+//        for (String palabrasReservada : palabrasReservadas) {
+//            if(palabrasReservada.equals(palabra)){
+//                ispalabra= true;
+//                break;
+//            }
+//        }
+//        return ispalabra;
+//    }
+    
+    
+    public boolean definiTipo(String palabra, String [] tipo){
         boolean ispalabra=false;
-        for (String palabrasReservada : palabrasReservadas) {
+        for (String palabrasReservada : tipo) {
             if(palabrasReservada.equals(palabra)){
                 ispalabra= true;
                 break;
@@ -102,9 +123,11 @@ public class Simbolos {
         }
         return ispalabra;
     }
+
     public boolean esletra(Character caracter){
         if(Character.isLetter(caracter))
             return true;
         return false;
     }
+
 }

@@ -6,40 +6,74 @@
 package co.ucentral.edu.analizadores;
 
 import java.util.Scanner;
+import co.ucentral.edu.model.Palabra;
+import com.ucentral.compiladores.scorte.JFSegundoCorte;
+import java.util.ArrayList;
+import javax.swing.JTabbedPane;
+import co.ucentral.edu.analizadores.Simbolos;
 
 /**
  *
  * @author Adolfo
  */
 public class Lexico {
-    
-    private Scanner escaner; 
-    private Scanner escanerSparte;
-    private String cadena;
-    public Lexico() {
-    }
 
-    public void analizadorLexico(String texto){
-        escaner = new Scanner(texto);
-        int linea =1;
-        String Linea="";
-        while(escaner.hasNext()){
-            Linea = escaner.nextLine();
-            //System.out.printf("Texto = %s \t Linea = %d \n" , escaner.nextLine(),linea);
-            tablaSimbolos(Linea, linea);
-            linea++;
-        }
-        System.out.println("Linea = " + Linea);
-    }
-    public void tablaSimbolos(String linea, int numeroLinea){
-        escanerSparte = new Scanner(linea);
-        String tipo = "22";
-        while (escanerSparte.hasNext()) {
-            System.out.printf("palabra = %s \t linea = %d \t tipo = %s \n",
-                    escanerSparte.next(), numeroLinea, tipo);
-            
-        }
-        
-    }
-    
+	private Scanner escaner;
+	private Scanner escanerSparte;
+	private ArrayList<Palabra> listaPalabras = new ArrayList<Palabra>();
+	private String tipo;
+
+	public Lexico() {
+	}
+
+	public ArrayList<Palabra> analizadorLexico(String texto) {
+		escaner = new Scanner(texto);
+		int linea = 1;
+		String Linea = "";
+		while (escaner.hasNext()) {
+			Linea = escaner.nextLine();
+			// System.out.printf("Texto = %s \t Linea = %d \n" , escaner.nextLine(),linea);
+			tablaSimbolos(Linea, linea);
+			linea++;
+		}
+
+		return listaPalabras;
+
+	}
+
+	public void tablaSimbolos(String linea, int numeroLinea) {
+		escanerSparte = new Scanner(linea);
+
+		int i;
+		while (escanerSparte.hasNext()) {
+			String pal = escanerSparte.next();
+			tipo = tipoPalabra(pal);
+			Palabra palabra = new Palabra(numeroLinea, tipo, pal);
+			listaPalabras.add(palabra);
+
+		}
+	}
+
+	private String tipoPalabra(String palabra) {
+		String tipoPal = "";
+		Simbolos simbolo = new Simbolos();
+		if (simbolo.definiTipo(palabra, simbolo.palabrasReservadas)) {
+			tipoPal = "Reservada";
+		} else if (simbolo.definiTipo(palabra, simbolo.operadoresMatemáticos)) {
+			tipoPal = "MathOperador";
+		} else if (simbolo.definiTipo(palabra, simbolo.caracteresEspeciales)) {
+			tipoPal = "CaracterEsp";
+		} else if (simbolo.definiTipo(palabra, simbolo.operadoresRelComplejos)) {
+			tipoPal = "OperadorRelcomplejo";
+		} else if (simbolo.definiTipo(palabra, simbolo.operadoresRel)) {
+			tipoPal = "OperadorRel";
+		} else if (simbolo.validaNumeros(Character.MAX_VALUE)) {
+			tipoPal = "Numerico";
+		} else {
+			tipoPal = "Palabra";
+		}
+		return tipoPal;
+
+	}
+
 }
