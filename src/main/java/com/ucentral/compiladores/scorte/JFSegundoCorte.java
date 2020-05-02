@@ -6,9 +6,11 @@
 package com.ucentral.compiladores.scorte;
 
 import co.ucentral.edu.analizadores.Lexico;
+import co.ucentral.edu.model.Palabra;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 /**
@@ -120,13 +122,10 @@ public class JFSegundoCorte extends javax.swing.JFrame {
 
         tbSimbolos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Linea", "Tipo"
             }
         ));
         jScrollPane2.setViewportView(tbSimbolos);
@@ -256,8 +255,22 @@ public class JFSegundoCorte extends javax.swing.JFrame {
     }//GEN-LAST:event_SeleccionarArchivoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       lexico.analizadorLexico(tAareaImpresion.getText());
-              
+       ArrayList<Palabra> listaPalabras= new ArrayList<>(); 
+       listaPalabras = lexico.analizadorLexico(tAareaImpresion.getText());
+       String mostrarTabla[][]=new String [listaPalabras.size()][3];
+        for (int i=0;i<listaPalabras.size();i++)
+        {
+            mostrarTabla[i][0]=listaPalabras.get(i).getPalabra();
+            mostrarTabla[i][1]=String.valueOf(listaPalabras.get(i).getLinea());
+            mostrarTabla[i][2]=listaPalabras.get(i).getTipo();
+        }
+        
+        tbSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+            mostrarTabla,
+            new String [] {
+                "Nombre", "Linea", "Tipo"
+            }
+        ));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

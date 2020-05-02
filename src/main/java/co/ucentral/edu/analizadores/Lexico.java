@@ -6,6 +6,10 @@
 package co.ucentral.edu.analizadores;
 
 import java.util.Scanner;
+import co.ucentral.edu.model.Palabra;
+import com.ucentral.compiladores.scorte.JFSegundoCorte;
+import java.util.ArrayList;
+import javax.swing.JTabbedPane;
 
 /**
  *
@@ -15,10 +19,12 @@ public class Lexico {
     
     private Scanner escaner; 
     private Scanner escanerSparte;
+    ArrayList<Palabra> listaPalabras= new ArrayList<Palabra>();    
+    
     public Lexico() {
     }
 
-    public void analizadorLexico(String texto){
+    public ArrayList<Palabra> analizadorLexico(String texto){
         escaner = new Scanner(texto);
         int linea =1;
         while(escaner.hasNext()){
@@ -26,14 +32,18 @@ public class Lexico {
             tablaSimbolos(escaner.nextLine(), linea);
             linea++;
         }
+        return listaPalabras;
     }
     public void tablaSimbolos(String linea, int numeroLinea){
         escanerSparte = new Scanner(linea);
         String tipo = "22";
+        int i;
         while (escanerSparte.hasNext()) { 
-            System.out.printf("palabra = %s \t linea = %d \t tipo = %s \n",
-                    escanerSparte.next(), numeroLinea, tipo);
+            String pal=escanerSparte.next();
+            Palabra palabra=new Palabra(numeroLinea, tipo, pal);
+            listaPalabras.add(palabra);
         }
+        
     }
     
 }
