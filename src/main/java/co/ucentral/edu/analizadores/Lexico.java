@@ -5,12 +5,11 @@
  */
 package co.ucentral.edu.analizadores;
 
-import java.util.Scanner;
-import co.ucentral.edu.model.Palabra;
-import com.ucentral.compiladores.scorte.JFSegundoCorte;
 import java.util.ArrayList;
-import javax.swing.JTabbedPane;
-import co.ucentral.edu.analizadores.Simbolos;
+import java.util.Scanner;
+
+import co.ucentral.edu.model.Palabra;
+import com.co.ucentral.edu.automatas.AutomataPrograma;
 
 /**
  *
@@ -52,6 +51,7 @@ public class Lexico {
 			listaPalabras.add(palabra);
 
 		}
+               new AutomataPrograma(listaPalabras);
 	}
 
 	private String tipoPalabra(String palabra) {
