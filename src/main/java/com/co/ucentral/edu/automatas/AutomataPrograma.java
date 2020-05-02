@@ -5,6 +5,7 @@
  */
 package com.co.ucentral.edu.automatas;
 
+import co.ucentral.edu.model.Palabra;
 import com.co.ucentral.edu.error.ErrorSintactico;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,15 @@ import java.util.List;
 public class AutomataPrograma {
     
     private int count;
-    private String cadena;
+    private List<Palabra> cadena;
     private ErrorSintactico error;
     private List<ErrorSintactico> errorSintactico;
 
-    public AutomataPrograma(String cadena) {
+    public AutomataPrograma(List<Palabra> cadena) {
         this.cadena = cadena;
         error = new ErrorSintactico();
         errorSintactico = new ArrayList<>();
+        inicio();
     }
     
     public void inicio(){

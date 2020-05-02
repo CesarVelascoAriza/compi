@@ -10,8 +10,9 @@ package co.ucentral.edu.model;
  * @author rosemberg
  */
 public class Palabra {
-    int linea;
-    String tipo, palabra;
+    private int linea;
+    private String tipo;
+    private String palabra;
 
     public Palabra(int linea, String tipo, String palabra) {
         this.linea = linea;
