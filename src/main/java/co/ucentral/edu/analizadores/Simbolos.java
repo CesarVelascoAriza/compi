@@ -102,5 +102,9 @@ public class Simbolos {
         }
         return ispalabra;
     }
-    
+    public boolean esletra(Character caracter){
+        if(Character.isLetter(caracter))
+            return true;
+        return false;
+    }
 }
