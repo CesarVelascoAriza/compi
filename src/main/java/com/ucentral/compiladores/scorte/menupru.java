@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import co.ucentral.compiladores.ManejoArchivos;
+import co.ucentral.compiladores.AnalizadorLexico;
 
 public class menupru extends JFrame implements ActionListener {
     private MenuBar menuBar;
@@ -56,6 +58,9 @@ public class menupru extends JFrame implements ActionListener {
     
     boolean essalvar = true;
     String nombre=" ";
+    
+    private ManejoArchivos archivo;
+    private AnalizadorLexico analizadorLexico;
 		
      public menupru() {
        setSize(new Dimension(640, 480));
@@ -248,7 +253,29 @@ public class menupru extends JFrame implements ActionListener {
 	}
 	
         public void analizar()
-        {		}
+        {	
+            String textoPrueba = "entero\n" +
+                                "real\n" +
+                                "si\n" +
+                                "sin\n" +
+                                "para\n" +
+                                "prog\n" +
+                                "real\n" +
+                                "cadena\n" +
+                                "fprogram\n" +
+                                "mientras\n" +
+                                "haga\n" +
+                                "fsi\n" +
+                                "lea\n" +
+                                "escriba\n" +
+                                "variables\n" +
+                                "inicio\n" +
+                                "fmientras\n" +
+                                "noEsReserv\n" +
+                                "";
+            analizadorLexico  = new AnalizadorLexico();
+            analizadorLexico.analizarPalabras(textoPrueba);
+        }
 
         public static void main (String [] args) {
             menupru m =  new menupru();   
