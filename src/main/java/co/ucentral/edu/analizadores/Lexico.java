@@ -10,6 +10,7 @@ import co.ucentral.edu.model.Palabra;
 import com.ucentral.compiladores.scorte.JFSegundoCorte;
 import java.util.ArrayList;
 import javax.swing.JTabbedPane;
+import co.ucentral.edu.analizadores.Simbolos;
 
 /**
  *
@@ -36,14 +37,49 @@ public class Lexico {
     }
     public void tablaSimbolos(String linea, int numeroLinea){
         escanerSparte = new Scanner(linea);
-        String tipo = "22";
+        String tipo;
         int i;
         while (escanerSparte.hasNext()) { 
             String pal=escanerSparte.next();
+            tipo = tipoPalabra(pal);
             Palabra palabra=new Palabra(numeroLinea, tipo, pal);
             listaPalabras.add(palabra);
         }
         
+    }
+
+    private String tipoPalabra(String palabra) {
+        String tipoPal="";
+        Simbolos simbolo=new Simbolos();
+        if(simbolo.definiTipo(palabra, simbolo.palabrasReservadas))
+        {
+            tipoPal="Reservada";
+        }
+        else if(simbolo.definiTipo(palabra, simbolo.operadoresMatemáticos))
+        {
+            tipoPal="MathOperador";
+        }
+        else if(simbolo.definiTipo(palabra, simbolo.caracteresEspeciales))
+        {
+            tipoPal="CaracterEsp";
+        }
+        else if(simbolo.definiTipo(palabra, simbolo.operadoresRelComplejos))
+        {
+            tipoPal="OperadorRelcomplejo";
+        }
+        else if(simbolo.definiTipo(palabra, simbolo.operadoresRel))
+        {
+            tipoPal="OperadorRel";
+        }
+        else if(simbolo.validaNumeros(Character.MAX_VALUE))
+        {
+            tipoPal="Numerico";
+        }
+        else
+        {
+            tipoPal="Palabra";
+        }
+        return tipoPal;
     }
     
 }
