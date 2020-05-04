@@ -41,9 +41,26 @@ public class Lexico {
         int i;
         while (escanerSparte.hasNext()) { 
             String pal=escanerSparte.next();
-            tipo = tipoPalabra(pal);
-            Palabra palabra=new Palabra(numeroLinea, tipo, pal);
-            listaPalabras.add(palabra);
+            String [] signos = {"=" , "(" , ")" , "\""};
+            if(pal.contains(signos[0]) || pal.contains(signos[1]) || pal.contains(signos[2]) || pal.contains(signos[3] ))
+            {
+                String newStr = separar(signos,pal);
+                Scanner escanNewStr = new Scanner(newStr);
+                while(escanNewStr.hasNext())
+                {
+                    String newPal=escanNewStr.next();
+                    tipo = tipoPalabra(newPal);
+                    Palabra palabra=new Palabra(numeroLinea, tipo, newPal);
+                    listaPalabras.add(palabra);
+                }
+                
+            }
+            else
+            {
+                tipo = tipoPalabra(pal);
+                Palabra palabra=new Palabra(numeroLinea, tipo, pal);
+                listaPalabras.add(palabra);
+            }
         }
         
     }
@@ -53,33 +70,44 @@ public class Lexico {
         Simbolos simbolo=new Simbolos();
         if(simbolo.definiTipo(palabra, simbolo.palabrasReservadas))
         {
-            tipoPal="Reservada";
+            tipoPal="RESERVADA";
         }
         else if(simbolo.definiTipo(palabra, simbolo.operadoresMatemáticos))
         {
-            tipoPal="MathOperador";
+            tipoPal="MATHOPERADOR";
         }
         else if(simbolo.definiTipo(palabra, simbolo.caracteresEspeciales))
         {
-            tipoPal="CaracterEsp";
+            tipoPal="CARACTERESP";
         }
         else if(simbolo.definiTipo(palabra, simbolo.operadoresRelComplejos))
         {
-            tipoPal="OperadorRelcomplejo";
+            tipoPal="OPERADORRELCOMPLEJO";
         }
         else if(simbolo.definiTipo(palabra, simbolo.operadoresRel))
         {
-            tipoPal="OperadorRel";
+            tipoPal="OPERADORREL";
         }
-        else if(simbolo.validaNumeros(Character.MAX_VALUE))
+        else if(simbolo.validaNumeros(palabra))
         {
-            tipoPal="Numerico";
+            tipoPal="NUMERICO";
         }
         else
         {
-            tipoPal="Palabra";
+            tipoPal="IDENTIFICADOR";
         }
         return tipoPal;
+    }
+
+    private String separar(String[] signos, String pal) {
+        String newPal = pal;
+        //String [] signos = {"=" , "(" , ")" , "\""};
+        if(pal.contains(signos[0])){ newPal= newPal.replace("=", " = ");}
+        if(pal.contains(signos[1])){ newPal= newPal.replace("(", " ( ");}
+        if(pal.contains(signos[2])){ newPal= newPal.replace(")", " ) ");}
+        if(pal.contains(signos[3])){ newPal= newPal.replace("\"", " \" ");}
+        
+        return newPal;
     }
     
 }
