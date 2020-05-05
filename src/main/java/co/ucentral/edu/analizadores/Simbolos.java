@@ -14,104 +14,25 @@ public class Simbolos {
     public String[] palabrasReservadas={"prog","haga","lea","escriba",
         "variables","var", "inicio" ,"fprogram" };
     
-    public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^"};
+    public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^" , "="};
     
     public String[] caracteresEspeciales={"@" , "." , ";" , "," , "{" , "}" , "(" , ")" };
     
-    public String[] operadoresRelComplejos= {">=" , "<=" , "<>"};
+    public String[] operadoresRelComplejos= {">=" , "<=" , "<>" , "=="};
     
     public String[] operadoresRel= {">" , "<" };
     
-    
-    public boolean analizarOperadoresMatematicos(Character caracter) {
-        if (caracter.equals('*')) {
-             return true;
-        }
-        if (caracter.equals('-')) {
-            return true;
-        }
-        if (caracter.equals('+')) {
-            return true;
-        }
-        if (caracter.equals('/')) {
-            return true;
-        }
-        if (caracter.equals('^')) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean caracterEspeciales(Character caracter) {
-        if (caracter.equals('@')) {
-            return true;
-        }
-        if (caracter.equals('.')) {
-            return true;
-        }
-        if (caracter.equals(';')) {
-            return true;
-        }
-        if (caracter.equals(',')) {
-            return true;
-        }
-        if (caracter.equals('{')) {
-            return true;
-        }
-        if (caracter.equals('}')) {
-            return true;
-        }
-        if (caracter.equals('(')) {
-            return true;
-        }
-        if (caracter.equals(')')) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean opeladoresRelacionComplejos(String string) {
-        if (string.trim().equals(">=")) {
-            return true;
-        }
-        if (string.trim().equals("<=")) {
-            return true;
-        }
-        if (string.trim().equals("<>")) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean operadoresRelacion(Character caracter) {
-        if (caracter.equals('>')) {
-            return true;
-        }
-        if (caracter.equals('<')) {
-            return true;
-        }
-        return false;
-    }
-    public boolean validaNumeros(Character caracter){
-        if(Character.isDigit(caracter) )
+    public boolean validaNumeros(String caracter){
+        try
         {
-            return  true;
-        }else{
-            return  false;
+            Integer.parseInt(caracter);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
         }
     }
-    
-//    public boolean palabrasReservadas(String palabra, String [] tipo){
-//        boolean ispalabra=false;
-//        for (String palabrasReservada : palabrasReservadas) {
-//            if(palabrasReservada.equals(palabra)){
-//                ispalabra= true;
-//                break;
-//            }
-//        }
-//        return ispalabra;
-//    }
-    
     
     public boolean definiTipo(String palabra, String [] tipo){
         boolean ispalabra=false;
