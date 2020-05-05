@@ -15,7 +15,7 @@ import java.util.List;
  * @author Adolfo
  */
 public class AutomataPrograma {
-    
+
     private int count;
     private List<Palabra> cadena;
     private ErrorSintactico error;
@@ -25,47 +25,80 @@ public class AutomataPrograma {
         this.cadena = cadena;
         error = new ErrorSintactico();
         errorSintactico = new ArrayList<>();
-        inicio();
-    }
-    
-    public void inicio(){
-         count = 0;
-        estadoCero();
-    }
-    
-    public void estadoCero(){
-        if(cadena.equals("prog")){
-            count ++;
-            estadoUno();
-        }
-        error.setError(1);
-        error.setDescripcion("Falta Incio del Programa");
-        errorSintactico.add(error);
+        estadoUno();
     }
 
-    private void estadoUno() {
-        if(cadena.equals("variables")){
-            count ++;
-            estadoDos();   
-        }
-        if(cadena.equals("var")){
-            count ++;
-            estadoDos();   
-        }
-        error.setError(2);
-        error.setDescripcion("Falta declaracion de varibles");
-        errorSintactico.add(error);
+    public void estadoUno() {
+            if(!cadena.get(count).equals("prog") ){
+               count++;
+               estadoDos();
+            }else{
+                error.setError(1);
+                error.setDescripcion("falata la palabra prog en la liena "  
+                        +cadena.get(count).getLinea());
+                errorSintactico.add(error);
+            }
+        
+    }
+    public void estadoDos(){
+        if(cadena.get(count).getTipo().equals("Palabra")){
+           count++;
+           estadoTres();
+        }else{
+            
+            error.setError(1);
+                error.setDescripcion("falata el identificiador del programa en la liena "  
+                        +cadena.get(count).getLinea());
+                errorSintactico.add(error);
+        } 
         
     }
 
-    private void estadoDos() {
-        estadoTres();
+    private void estadoTres() {
+      if(cadena.get(count).getTipo().equals("Reservada"))
+      {
+          if(cadena.get(count).getPalabra().equals("var")){
+              count++;
+              estadoCuatro();
+          }else if(cadena.get(count).getPalabra().equals("variable")){
+               count++;
+              estadoCuatro();
+          }
+          else{
+              error.setError(1);
+                error.setDescripcion("falta palabra reservada "  
+                        +cadena.get(count).getLinea());
+                errorSintactico.add(error);
+          }
+      }
     }
 
-    private void estadoTres() {
-       
+    private void estadoCuatro() {
+       if(cadena.get(count).getTipo().equals("Palabra")){
+           count++;
+           estadoCinco();
+       }else{
+           error.setError(1);
+                error.setDescripcion("falta palabra declaracion "  
+                        +cadena.get(count).getLinea());
+                errorSintactico.add(error);
+       }
     }
-    
-    
-    
+
+    private void estadoCinco() {
+        if(cadena.get(count).getTipo().equals("Reservada")){
+            count++;
+            estadoSeis();
+        }else{
+               error.setError(1);
+                error.setDescripcion("falta palabra reservada "  
+                        +cadena.get(count).getLinea());
+                errorSintactico.add(error);
+            
+        }
+    }
+
+    private void estadoSeis() {
+        count++;
+    }
 }

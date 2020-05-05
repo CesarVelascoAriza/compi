@@ -35,7 +35,7 @@ public class Lexico {
 			tablaSimbolos(Linea, linea);
 			linea++;
 		}
-
+                new AutomataPrograma(listaPalabras);
 		return listaPalabras;
 
 	}
@@ -51,7 +51,7 @@ public class Lexico {
 			listaPalabras.add(palabra);
 
 		}
-               new AutomataPrograma(listaPalabras);
+               
 	}
 
 	private String tipoPalabra(String palabra) {
