@@ -1,4 +1,4 @@
-/*
+     /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -12,11 +12,12 @@ package co.ucentral.edu.analizadores;
 public class Simbolos {
     
     public String[] palabrasReservadas={"prog","haga","lea","escriba",
-        "variables","var", "inicio" ,"fprogram" };
+        "variables","var", "inicio" ,"fprogram","entero", "real", "verdadero", "falso", "cadena" ,"y"
+    ,"o", "no", "mientras", "haga", "fmientras","si", "sin", "fsi"};
     
     public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^" , "="};
     
-    public String[] caracteresEspeciales={"@" , "." , ";" , "," , "{" , "}" , "(" , ")" };
+    public String[] caracteresEspeciales={"@" , "." , ";" , "," , "{" , "}" , "(" , ")" ,"\""};
     
     public String[] operadoresRelComplejos= {">=" , "<=" , "<>" , "=="};
     

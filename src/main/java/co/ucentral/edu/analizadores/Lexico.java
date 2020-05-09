@@ -5,12 +5,11 @@
  */
 package co.ucentral.edu.analizadores;
 
-import java.util.Scanner;
-import co.ucentral.edu.model.Palabra;
-import com.ucentral.compiladores.scorte.JFSegundoCorte;
 import java.util.ArrayList;
-import javax.swing.JTabbedPane;
-import co.ucentral.edu.analizadores.Simbolos;
+import java.util.Scanner;
+
+import co.ucentral.edu.model.Palabra;
+import com.co.ucentral.edu.automatas.AutomataPrograma;
 
 /**
  *
@@ -21,7 +20,7 @@ public class Lexico {
     private Scanner escaner; 
     private Scanner escanerSparte;
     ArrayList<Palabra> listaPalabras= new ArrayList<Palabra>();    
-    
+    private AutomataPrograma automata;
     public Lexico() {
     }
 
@@ -33,6 +32,7 @@ public class Lexico {
             tablaSimbolos(escaner.nextLine(), linea);
             linea++;
         }
+        automata= new AutomataPrograma(listaPalabras);
         return listaPalabras;
     }
     public void tablaSimbolos(String linea, int numeroLinea){
@@ -143,6 +143,10 @@ public class Lexico {
         }
         
         return newPal;
+    }
+
+    public AutomataPrograma getAutomata() {
+        return automata;
     }
     
 }

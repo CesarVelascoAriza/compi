@@ -53,7 +53,7 @@ public class JFSegundoCorte extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tAreaRanalisis = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Analizador Segundo Corte");
@@ -172,9 +172,9 @@ public class JFSegundoCorte extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 255)));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        tAreaRanalisis.setColumns(20);
+        tAreaRanalisis.setRows(5);
+        jScrollPane3.setViewportView(tAreaRanalisis);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -257,6 +257,14 @@ public class JFSegundoCorte extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        ArrayList<Palabra> listaPalabras= new ArrayList<>(); 
        listaPalabras = lexico.analizadorLexico(tAareaImpresion.getText());
+       if(!lexico.getAutomata().getErrorSintactico().isEmpty()){
+           for (int i = 0; i < lexico.getAutomata().getErrorSintactico().size(); i++) {
+              tAreaRanalisis.setText(lexico.getAutomata().getErrorSintactico().get(i).getDescripcion()+"\n");
+           }
+       }else{
+           tAreaRanalisis.setText(lexico.getAutomata().getFinAnalizar());
+       
+       }
        String mostrarTabla[][]=new String [listaPalabras.size()][3];
         for (int i=0;i<listaPalabras.size();i++)
         {
@@ -316,12 +324,12 @@ public class JFSegundoCorte extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lbArchivo;
     private javax.swing.JPanel pOpciones;
     private javax.swing.JPanel pTabla;
     private javax.swing.JPanel pTexto;
     private javax.swing.JTextArea tAareaImpresion;
+    private javax.swing.JTextArea tAreaRanalisis;
     private javax.swing.JTextField tFrutaArchivo;
     private javax.swing.JTable tbSimbolos;
     // End of variables declaration//GEN-END:variables
