@@ -21,6 +21,8 @@ public class Lexico {
     private Scanner escanerSparte;
     ArrayList<Palabra> listaPalabras= new ArrayList<Palabra>();    
     private AutomataPrograma automata;
+    //private AnalizarPrograma automata;
+    private String mensaje;
     public Lexico() {
     }
 
@@ -32,6 +34,8 @@ public class Lexico {
             tablaSimbolos(escaner.nextLine(), linea);
             linea++;
         }
+        //automata= new AutomataPrograma(listaPalabras);
+        mensaje="-------------Termina analisis lexico --------------";
         automata= new AutomataPrograma(listaPalabras);
         return listaPalabras;
     }
@@ -145,8 +149,15 @@ public class Lexico {
         return newPal;
     }
 
+    /*public AutomataPrograma getAutomata() {
+        return automata;
+    }*/
     public AutomataPrograma getAutomata() {
         return automata;
+    }
+
+    public String getMensaje() {
+        return mensaje;
     }
     
 }
