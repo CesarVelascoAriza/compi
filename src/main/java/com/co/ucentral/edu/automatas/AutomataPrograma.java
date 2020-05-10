@@ -21,7 +21,7 @@ public class AutomataPrograma {
     private List<Palabra> cadena;
     private ErrorSintactico error;
     private List<ErrorSintactico> errorSintactico;
-    private boolean estado;
+    public boolean estado;
     private String finAnalizar;
     private boolean cadenaAceptada;
 
@@ -156,6 +156,7 @@ public class AutomataPrograma {
     }
 
     private void estadoOcho() {
+        System.out.println("estado8  ");
         if (!cadenaAceptada) {
             if (cadena.get(count).getTipo().equals("CARACTERESP")) {
                 String caracter = cadena.get(count).getPalabra();
@@ -209,6 +210,7 @@ public class AutomataPrograma {
     }
 
     private void estadoNueve() {
+        System.out.println("estado9  ");
         if (!cadenaAceptada) {
             if (cadena.get(count).getTipo().equals("IDENTIFICADOR")) {
                 count++;

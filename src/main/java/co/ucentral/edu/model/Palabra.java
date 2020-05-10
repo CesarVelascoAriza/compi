@@ -13,6 +13,7 @@ public class Palabra {
     private int linea;
     private String tipo;
     private String palabra;
+    private String estado;
 
     public Palabra(int linea, String tipo, String palabra) {
         this.linea = linea;
@@ -21,6 +22,10 @@ public class Palabra {
     }
 
     public Palabra() {
+    }
+
+    public Palabra(String estado) {
+        this.estado = estado;
     }
     
     
@@ -47,6 +52,14 @@ public class Palabra {
 
     public void setPalabra(String palabra) {
         this.palabra = palabra;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
     

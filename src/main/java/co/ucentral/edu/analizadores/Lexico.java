@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 import co.ucentral.edu.model.Palabra;
 import com.co.ucentral.edu.automatas.AutomataPrograma;
-
+import java.util.List;
+import co.ucentral.edu.analizadores.Semantico;
 /**
  *
  * @author Adolfo
@@ -21,6 +22,7 @@ public class Lexico {
     private Scanner escanerSparte;
     ArrayList<Palabra> listaPalabras= new ArrayList<Palabra>();    
     private AutomataPrograma automata;
+    private Semantico semantico=new Semantico();
     public Lexico() {
     }
 
@@ -33,8 +35,18 @@ public class Lexico {
             linea++;
         }
         automata= new AutomataPrograma(listaPalabras);
+        if(automata.estado)
+            semantico.analizadorSemantico(listaPalabras);
+        
         return listaPalabras;
     }
+    
+    public void analizarInstrucción(ArrayList<Palabra> cadena){
+        int i=1 ;
+        ArrayList<Palabra> lexema=new ArrayList<Palabra>();
+        
+    }
+    
     public void tablaSimbolos(String linea, int numeroLinea){
         escanerSparte = new Scanner(linea);
         String tipo;
