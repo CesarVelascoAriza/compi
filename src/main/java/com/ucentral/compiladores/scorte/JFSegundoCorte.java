@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -50,7 +51,7 @@ public class JFSegundoCorte extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbSimbolos = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        analisisIncia = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tAreaRanalisis = new javax.swing.JTextArea();
@@ -147,10 +148,10 @@ public class JFSegundoCorte extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Inicar Analizar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        analisisIncia.setText("Inicar Analizar");
+        analisisIncia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                analisisInciaActionPerformed(evt);
             }
         });
 
@@ -160,14 +161,14 @@ public class JFSegundoCorte extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(172, 172, 172)
-                .addComponent(jButton1)
+                .addComponent(analisisIncia)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 13, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                .addComponent(analisisIncia))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 255)));
@@ -254,34 +255,43 @@ public class JFSegundoCorte extends javax.swing.JFrame {
 
     }//GEN-LAST:event_SeleccionarArchivoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ArrayList<Palabra> listaPalabras = new ArrayList<>();
-        listaPalabras = lexico.analizadorLexico(tAareaImpresion.getText());
-        tAreaRanalisis.setText(lexico.getMensaje());
-        if (!lexico.getAutomata().getErrorSintactico().isEmpty()) {
-            for (int i = 0; i < lexico.getAutomata().getErrorSintactico().size(); i++) {
-                tAreaRanalisis.setText(lexico.getAutomata().getErrorSintactico().get(i).getDescripcion() + "\n");
-            }
-        } else {
+    private void analisisInciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analisisInciaActionPerformed
 
-            tAreaRanalisis.setText(tAreaRanalisis.getText() + "\n" + lexico.getAutomata().getMensaje());
+        try {
+            if (!tAareaImpresion.getText().isEmpty()) {
+                ArrayList<Palabra> listaPalabras = new ArrayList<>();
+                listaPalabras = lexico.analizadorLexico(tAareaImpresion.getText());
+                tAreaRanalisis.setText(lexico.getMensaje());
+                if (!lexico.getAutomata().getErrorSintactico().isEmpty()) {
+                    for (int i = 0; i < lexico.getAutomata().getErrorSintactico().size(); i++) {
+                        tAreaRanalisis.setText(lexico.getAutomata().getErrorSintactico().get(i).getDescripcion() + "\n");
+                    }
+                } else {
 
-        }
+                    tAreaRanalisis.setText(tAreaRanalisis.getText() + "\n" + lexico.getAutomata().getMensaje());
 
-        String mostrarTabla[][] = new String[listaPalabras.size()][3];
-        for (int i = 0; i < listaPalabras.size(); i++) {
-            mostrarTabla[i][0] = listaPalabras.get(i).getPalabra();
-            mostrarTabla[i][1] = String.valueOf(listaPalabras.get(i).getLinea());
-            mostrarTabla[i][2] = listaPalabras.get(i).getTipo();
-        }
-
-        tbSimbolos.setModel(new javax.swing.table.DefaultTableModel(
-                mostrarTabla,
-                new String[]{
-                    "Nombre", "Linea", "Tipo"
                 }
-        ));
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+                String mostrarTabla[][] = new String[listaPalabras.size()][3];
+                for (int i = 0; i < listaPalabras.size(); i++) {
+                    mostrarTabla[i][0] = listaPalabras.get(i).getPalabra();
+                    mostrarTabla[i][1] = String.valueOf(listaPalabras.get(i).getLinea());
+                    mostrarTabla[i][2] = listaPalabras.get(i).getTipo();
+                }
+
+                tbSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+                        mostrarTabla,
+                        new String[]{
+                            "Nombre", "Linea", "Tipo"
+                        }
+                ));
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado Ningun archivo","Text area vacia",JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error en el analisís","Vacias",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_analisisInciaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,7 +330,7 @@ public class JFSegundoCorte extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SeleccionarArchivo;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton analisisIncia;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

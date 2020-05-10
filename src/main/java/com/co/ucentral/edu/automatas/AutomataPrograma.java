@@ -74,12 +74,28 @@ public class AutomataPrograma {
                 } else if (cadena.get(count).getPalabra().equals("variable")) {
                     count++;
                     q1();
-                }else if(cadena.get(count).getPalabra().equals("fprogram")){
+                }else if(cadena.get(count).getPalabra().equals("inicio")){
+                    count++;
+                    q2();
+                }
+                else if(cadena.get(count).getPalabra().equals("escriba")){
+                    count++;
+                    q2();
+                }
+                else if(cadena.get(count).getPalabra().equals("lea")){
+                    count++;
+                    q2();
+                } else if(cadena.get(count).getPalabra().equals("entero")){
+                    count++;
+                    q2();
+                }
+                else if(cadena.get(count).getPalabra().equals("fprogram")){
                     estadoFinal();
                 }
                 else {
-                    count++;
-                    q2();
+                    /*count++;
+                    q2();*/
+                    estadoError(cadena, error);
                 }
             } else if (cadena.get(count).getTipo().equals("CARACTERESP")) {
                 q3();
