@@ -36,14 +36,18 @@ public class Lexico {
         }
         automata= new AutomataPrograma(listaPalabras);
         if(automata.estado)
-            semantico.analizadorSemantico(listaPalabras);
+            analizarInstrucción(listaPalabras);
         
         return listaPalabras;
     }
     
-    public void analizarInstrucción(ArrayList<Palabra> cadena){
-        int i=1 ;
-        ArrayList<Palabra> lexema=new ArrayList<Palabra>();
+    public void analizarInstrucción(ArrayList<Palabra> listaPalabras){
+        int linea=1;
+        ArrayList<Palabra> strLinea = new ArrayList<Palabra>();
+        for(int i = 0 ; i < listaPalabras.size(); i++)
+        {
+            
+        }
         
     }
     

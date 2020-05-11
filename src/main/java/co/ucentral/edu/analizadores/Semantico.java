@@ -7,6 +7,7 @@ package co.ucentral.edu.analizadores;
 
 import co.ucentral.edu.analizadores.Simbolos;
 import co.ucentral.edu.model.Palabra;
+import java.util.ArrayList;
 import java.util.List;
 /**
  *
@@ -30,7 +31,7 @@ import java.util.List;
 public class Semantico {
     Simbolos simbolo= new Simbolos();
     
-    public String[] iniciaProg={ simbolo.palabrasReservadas[0], simbolo.palabrasReservadas[0]+" IDENTIFICADOR"};
+    public String[] iniciaProg={ simbolo.palabrasReservadas[0], simbolo.palabrasReservadas[0]+" IDENTIFICADOR "};
     public String[] asignaVar={simbolo.palabrasReservadas[4]+" IDENTIFICADOR "+ simbolo.palabrasReservadas[7],
                                simbolo.palabrasReservadas[4]+" IDENTIFICADOR "+ simbolo.palabrasReservadas[8],
                                simbolo.palabrasReservadas[4]+" IDENTIFICADOR "+ simbolo.palabrasReservadas[9],
@@ -50,13 +51,10 @@ public class Semantico {
      System.out.print(algo);
         
     }
-    public void analizadorSemantico(List<Palabra> listaPalabras)
+    public void analizadorSemantico(ArrayList<Palabra> lexema, int linea)
     {
-        
-//        while(listaPalabras.size())
-//        {
-//            
-//        }
+        for(Palabra p : lexema)
+       System.out.println(p.getPalabra());
     }
     
     
