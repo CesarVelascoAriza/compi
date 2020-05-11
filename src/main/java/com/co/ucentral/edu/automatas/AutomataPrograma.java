@@ -22,20 +22,24 @@ public class AutomataPrograma {
     private List<ErrorSintactico> errorSintactico;
     private boolean cierreCararter;
     private boolean estadoCadena;
+    private boolean accion;
     private String mensaje;
+    private String variblesDeclaradas;
+
     public AutomataPrograma(List<Palabra> cadena) {
         this.cadena = cadena;
         error = new ErrorSintactico();
         errorSintactico = new ArrayList<>();
         estadoIniciar();
-        if(estadoCadena){
-            mensaje= "--------------- final analisis sintáctico ------------";
+        if (estadoCadena) {
+            mensaje = "--------------- final analisis sintáctico ------------";
         }
     }
 
     public void estadoIniciar() {
         count = 0;
         estadoCadena = false;
+        accion= false;
         cierreCararter = false;
         q0();
     }
@@ -70,29 +74,28 @@ public class AutomataPrograma {
             if (cadena.get(count).getTipo().equals("RESERVADA")) {
                 if (cadena.get(count).getPalabra().equals("var")) {
                     count++;
+                    variblesDeclaradas=cadena.get(count).getPalabra();
                     q1();
                 } else if (cadena.get(count).getPalabra().equals("variable")) {
                     count++;
+                    variblesDeclaradas =variblesDeclaradas.concat(" "+ cadena.get(count).getPalabra());
                     q1();
-                }else if(cadena.get(count).getPalabra().equals("inicio")){
+                } else if (cadena.get(count).getPalabra().equals("inicio")) {
                     count++;
                     q2();
-                }
-                else if(cadena.get(count).getPalabra().equals("escriba")){
+                } else if (cadena.get(count).getPalabra().equals("escriba")) {
                     count++;
                     q2();
-                }
-                else if(cadena.get(count).getPalabra().equals("lea")){
+                } else if (cadena.get(count).getPalabra().equals("lea")) {
+                    count++;
+                    System.out.println(""+ variblesDeclaradas);
+                    q2();
+                } else if (cadena.get(count).getPalabra().equals("entero")) {
                     count++;
                     q2();
-                } else if(cadena.get(count).getPalabra().equals("entero")){
-                    count++;
-                    q2();
-                }
-                else if(cadena.get(count).getPalabra().equals("fprogram")){
+                } else if (cadena.get(count).getPalabra().equals("fprogram")) {
                     estadoFinal();
-                }
-                else {
+                } else {
                     /*count++;
                     q2();*/
                     estadoError(cadena, error);
@@ -130,7 +133,7 @@ public class AutomataPrograma {
                     cierreCararter = false;
                     count++;
                     q2();
-                }else{
+                } else {
                     estadoError(cadena, error);
                 }
 
@@ -167,11 +170,11 @@ public class AutomataPrograma {
 
     public void estadoError(List<Palabra> cadena, ErrorSintactico error) {
         error.setError(count);
-        error.setDescripcion("se falta la expresión antes de la palabra " +
-                " " + cadena.get(count).getPalabra() + " "
-        + " en la linea " +cadena.get(count).getLinea() + "Tipo de palabra " +
-                cadena.get(count).getTipo());
-       errorSintactico.add(error);
+        error.setDescripcion("se falta la expresión antes de la palabra "
+                + " " + cadena.get(count).getPalabra() + " "
+                + " en la linea " + cadena.get(count).getLinea() + "Tipo de palabra "
+                + cadena.get(count).getTipo());
+        errorSintactico.add(error);
     }
 
     public List<ErrorSintactico> getErrorSintactico() {

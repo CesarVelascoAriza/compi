@@ -12,7 +12,7 @@ package co.ucentral.edu.analizadores;
 public class Simbolos {
     
     public String[] palabrasReservadas={"prog","haga","lea","escriba",
-        "variables","var", "inicio" ,"fprogram","entero", "real", "verdadero", "falso", "cadena" ,"y"
+        "variable","var", "inicio" ,"fprogram","entero", "real", "verdadero", "falso", "cadena" ,"y"
     ,"o", "no", "mientras", "haga", "fmientras","si", "sin", "fsi"};
     
     public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^" , "="};
