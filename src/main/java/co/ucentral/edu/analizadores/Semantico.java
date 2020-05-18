@@ -44,17 +44,14 @@ public class Semantico {
     public String[] indicarLea={simbolo.palabrasReservadas[2]+simbolo.caracteresEspeciales[6]+" IDENTIFICADOR "+simbolo.caracteresEspeciales[7]};
     
     
-    public void LoqueSea(){
-     String algo="";
-     algo=asignaVar[1];
-    
-     System.out.print(algo);
-        
-    }
-    public void analizadorSemantico(ArrayList<Palabra> lexema, int linea)
+    public void analizadorEscriba(String linea)
     {
-        for(Palabra p : lexema)
-       System.out.println(p.getPalabra());
+       System.out.println(linea);
+    }
+
+    void analizadorLea(String linea) 
+    {
+        System.out.println(linea);
     }
     
     

@@ -42,20 +42,42 @@ public class Lexico {
         //automata= new AutomataPrograma(listaPalabras);
         mensaje="-------------Termina analisis lexico --------------";
         automata= new AutomataPrograma(listaPalabras);
-//        if(automata.estado)
-//            analizarInstrucción(listaPalabras);
+        if(automata.isEstadoCadena())
+            analizarInstrucción(listaPalabras);
         
         return listaPalabras;
     }
     
     public void analizarInstrucción(ArrayList<Palabra> listaPalabras){
-        int linea=1;
-        ArrayList<Palabra> strLinea = new ArrayList<Palabra>();
-        for(int i = 0 ; i < listaPalabras.size(); i++)
+        int linea=0;
+        String strlinea="";
+        for (Palabra p : listaPalabras)
         {
-            
+            if(p.getPalabra().equals("escriba"))
+            {
+               strlinea=traeLinea(p.getLinea());
+               semantico.analizadorEscriba(strlinea);
+            }
+            else if (p.getPalabra().equals("lea"))
+            {
+                strlinea=traeLinea(p.getLinea());
+                semantico.analizadorLea(strlinea);
+            }
         }
         
+    }
+    
+    public String traeLinea(int linea)
+    {
+        String strlinea = "";
+       for(int i=0;i<listaPalabras.size();i++)
+       {
+           if(linea==listaPalabras.get(i).getLinea())
+           {
+               strlinea += listaPalabras.get(i).getPalabra();
+           }
+       }
+       return strlinea;
     }
     
     public void tablaSimbolos(String linea, int numeroLinea){

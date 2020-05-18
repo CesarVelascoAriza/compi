@@ -26,6 +26,16 @@ public class AutomataPrograma {
     private String mensaje;
     private String variblesDeclaradas;
 
+    public boolean isEstadoCadena() {
+        return estadoCadena;
+    }
+
+    public void setEstadoCadena(boolean estadoCadena) {
+        this.estadoCadena = estadoCadena;
+    }
+    
+    
+
     public AutomataPrograma(List<Palabra> cadena) {
         this.cadena = cadena;
         error = new ErrorSintactico();
