@@ -106,7 +106,27 @@ public class AutomataPrograma {
                 } else if (cadena.get(count).getPalabra().equals("booleano")) {
                     count++;
                     q2();
-                } else if (cadena.get(count).getPalabra().equals("fprogram")) {
+                
+                }else if (cadena.get(count).getPalabra().equals("si")) {
+                    count++;
+                    q2();
+                }else if (cadena.get(count).getPalabra().equals("sin")) {
+                    count++;
+                    q2();
+                }else if (cadena.get(count).getPalabra().equals("fsin")) {
+                    count++;
+                    q2();
+                }else if (cadena.get(count).getPalabra().equals("mientras")) {
+                    count++;
+                    q2();
+                }else if (cadena.get(count).getPalabra().equals("haga")) {
+                    count++;
+                    q2();
+                }else if (cadena.get(count).getPalabra().equals("fmientras")) {
+                    count++;
+                    q2();
+                }
+                else if (cadena.get(count).getPalabra().equals("fprogram")) {
                     estadoFinal();
                 } else {
                     /*count++;
@@ -120,7 +140,11 @@ public class AutomataPrograma {
                 q1();
             } else if (cadena.get(count).getTipo().equals("IDENTIFICADOR")) {
                 q1();
-            } else {
+            }else if (cadena.get(count).getTipo().equals("OPERADORRELCOMPLEJO")) {
+                count++;
+            	q4();
+            } 
+            else {
                 estadoError(cadena, error);
             }
         }
@@ -159,7 +183,7 @@ public class AutomataPrograma {
     private void q4() {
         if (count < cadena.size()) {
             System.out.println("en q4");
-            if (cadena.get(count).getTipo().equals("IDENTIFICADOR")) {
+            if (cadena.get(count).getTipo().equals("NUMERICO")) {
                 count++;
                 q2();
             } else {

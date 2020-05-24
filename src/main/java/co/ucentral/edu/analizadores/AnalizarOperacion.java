@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.co.ucentral.edu.automatas;
+package co.ucentral.edu.analizadores;
 
 /**
  *
  * @author Adolfo
  */
-class list<T> {
+public class AnalizarOperacion {
     
 }
