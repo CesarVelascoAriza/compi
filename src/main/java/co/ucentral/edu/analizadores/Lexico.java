@@ -42,49 +42,50 @@ public class Lexico {
         //automata= new AutomataPrograma(listaPalabras);
         mensaje="-------------Termina analisis lexico --------------";
         automata= new AutomataPrograma(listaPalabras);
-        if(automata.isEstadoCadena())
-            analizarInstrucción(listaPalabras);
+//        if(automata.isEstadoCadena())
+//            analizarInstrucción(listaPalabras);
         
         return listaPalabras;
     }
     
-    public void analizarInstrucción(ArrayList<Palabra> listaPalabras){
-        int linea=0;
-        String strlinea="";
-        for (Palabra p : listaPalabras)
-        {
-            switch(p.getPalabra())
-            {
-                case "variable":
-                case "var":
-                   strlinea=traeLinea(p.getLinea());
-                   semantico.analizadorVariable(strlinea,p.getLinea());  
-                break;
-                case "escriba":
-                   strlinea=traeLinea(p.getLinea());
-                   semantico.analizadorEscriba(strlinea,p.getLinea()); 
-                break;
-                
-                case "lea":
-                    strlinea=traeLinea(p.getLinea());
-                    semantico.analizadorLea(strlinea,p.getLinea());
-                break;
-                case "si":
-                case "sin":
-                case "fsi":
-                    strlinea=traeLinea(p.getLinea());
-                    semantico.analizadorSi(strlinea,p.getLinea());
-                break;
-                case "para":
-                    strlinea=traeLinea(p.getLinea());
-                    semantico.analizadorPara(strlinea,p.getLinea());
-                break;
-                    
-            }
-            
-        }
-        
-    }
+//    public void analizarInstrucción(ArrayList<Palabra> listaPalabras){
+//        int linea=0;
+//        String strlinea="";
+//        for (Palabra p : listaPalabras)
+//        {
+//            switch(p.getPalabra())
+//            {
+//                case "variable":
+//                case "var":
+//                   strlinea=traeLinea(p.getLinea());
+//                   semantico.analizadorVariable(strlinea,p.getLinea());  
+//                break;
+//                case "escriba":
+//                   strlinea=traeLinea(p.getLinea());
+//                   semantico.analizadorEscriba(strlinea,p.getLinea()); 
+//                   semantico.gettAEscriba();
+//                break;
+//                
+//                case "lea":
+//                    strlinea=traeLinea(p.getLinea());
+//                    semantico.analizadorLea(strlinea,p.getLinea());
+//                break;
+//                case "si":
+//                case "sin":
+//                case "fsi":
+//                    strlinea=traeLinea(p.getLinea());
+//                    semantico.analizadorSi(strlinea,p.getLinea());
+//                break;
+//                case "para":
+//                    strlinea=traeLinea(p.getLinea());
+//                    semantico.analizadorPara(strlinea,p.getLinea());
+//                break;
+//                    
+//            }
+//            
+//        }
+//        
+//    }
     
     public String traeLinea(int linea)
     {
@@ -220,5 +221,10 @@ public class Lexico {
     public String getMensaje() {
         return mensaje;
     }
+
+    public Semantico getSemantico() {
+        return semantico;
+    }
+    
     
 }

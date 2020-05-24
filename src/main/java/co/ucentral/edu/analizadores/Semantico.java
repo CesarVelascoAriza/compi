@@ -9,6 +9,8 @@ import co.ucentral.edu.analizadores.Simbolos;
 import co.ucentral.edu.model.Palabra;
 import co.ucentral.edu.analizadores.Lexico;
 import co.ucentral.edu.model.Variables;
+import com.ucentral.compiladores.scorte.FrameSCorte;
+import java.awt.TextArea;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -37,6 +39,8 @@ import static javax.swing.JOptionPane.showInputDialog;
 public class Semantico {
     Simbolos simbolo= new Simbolos();
     ArrayList<Variables> listaVar=new ArrayList<Variables>();
+    private String tAEscriba;
+    FrameSCorte sCFrame;
     
     public String[] iniciaProg={ simbolo.palabrasReservadas[0], simbolo.palabrasReservadas[0]+" IDENTIFICADOR "};
     public String[] asignaVar={simbolo.palabrasReservadas[4]+" IDENTIFICADOR "+ simbolo.palabrasReservadas[7],
@@ -57,6 +61,7 @@ public class Semantico {
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
        listaLinea=tablaSimbolos(strlinea, linea);
        String identificador ="";
+       boolean esVar=false;
        
        for (Palabra p : listaLinea)
        {
@@ -69,16 +74,17 @@ public class Semantico {
                    if(p.getPalabra().equals(lv.getIdentificador()))
                    {
                        identificador=lv.getValor();
-                   }
-                   else
-                   {
-                       identificador += p.getPalabra()+ " ";
+                       esVar=true;
                    }
                }
+                
+               if(!esVar)
+                identificador += p.getPalabra()+ " ";
+                   
            }
        }
        identificador +="\n";
-       System.out.println(identificador);
+       tAEscriba= identificador;
     }
 
     public void analizadorLea(String strlinea, int linea) 
@@ -89,13 +95,14 @@ public class Semantico {
        String tipoVar = "";
        String defaultval = ""; 
        String _defaultval="";
+       boolean esVar=false;
        listaLinea=tablaSimbolos(strlinea, linea);
        
        for (Palabra p : listaLinea)
        {
-         if(p.getTipo().equals("IDENTIFICADOR"))
-         {
-             for (Variables lv : listaVar)
+            if(p.getTipo().equals("IDENTIFICADOR"))
+            {
+                for (Variables lv : listaVar)
                {
                    if(p.getPalabra().equals(lv.getIdentificador()))
                    {
@@ -108,6 +115,7 @@ public class Semantico {
                                 {
                                     defaultval=_defaultval;
                                     lv.setValor(defaultval);
+                                    esVar=true;
                                 }
                                 else
                                 {
@@ -126,13 +134,15 @@ public class Semantico {
                             break;
                        }
                    }
+                   if(!esVar)
+                    JOptionPane.showMessageDialog(null, "No hay variable asignada ");
                }
              
-         }
+            }
        }
     }
     
-    void analizadorVariable(String strlinea, int linea) 
+    public void analizadorVariable(String strlinea, int linea) 
     {
        System.out.println(strlinea);
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
@@ -170,13 +180,13 @@ public class Semantico {
        listaVar.add(var);
     }
 
-    void analizadorSi(String strlinea, int linea) {
+    public void analizadorSi(String strlinea, int linea) {
         System.out.println(strlinea);
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
        listaLinea=tablaSimbolos(strlinea, linea); 
     }
 
-    void analizadorPara(String strlinea, int linea) {
+    public void analizadorPara(String strlinea, int linea) {
          System.out.println(strlinea);
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
        listaLinea=tablaSimbolos(strlinea, linea);
@@ -228,4 +238,10 @@ public class Semantico {
         }
         return listaPalabras;
     }
+
+    public String gettAEscriba() {
+        return tAEscriba;
+    }
+    
+    
 }
