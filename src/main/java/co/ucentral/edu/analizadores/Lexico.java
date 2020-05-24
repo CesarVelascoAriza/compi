@@ -53,16 +53,35 @@ public class Lexico {
         String strlinea="";
         for (Palabra p : listaPalabras)
         {
-            if(p.getPalabra().equals("escriba"))
+            switch(p.getPalabra())
             {
-               strlinea=traeLinea(p.getLinea());
-               semantico.analizadorEscriba(strlinea);
+                case "variable":
+                case "var":
+                   strlinea=traeLinea(p.getLinea());
+                   semantico.analizadorVariable(strlinea,p.getLinea());  
+                break;
+                case "escriba":
+                   strlinea=traeLinea(p.getLinea());
+                   semantico.analizadorEscriba(strlinea,p.getLinea()); 
+                break;
+                
+                case "lea":
+                    strlinea=traeLinea(p.getLinea());
+                    semantico.analizadorLea(strlinea,p.getLinea());
+                break;
+                case "si":
+                case "sin":
+                case "fsi":
+                    strlinea=traeLinea(p.getLinea());
+                    semantico.analizadorSi(strlinea,p.getLinea());
+                break;
+                case "para":
+                    strlinea=traeLinea(p.getLinea());
+                    semantico.analizadorPara(strlinea,p.getLinea());
+                break;
+                    
             }
-            else if (p.getPalabra().equals("lea"))
-            {
-                strlinea=traeLinea(p.getLinea());
-                semantico.analizadorLea(strlinea);
-            }
+            
         }
         
     }
@@ -74,7 +93,7 @@ public class Lexico {
        {
            if(linea==listaPalabras.get(i).getLinea())
            {
-               strlinea += listaPalabras.get(i).getPalabra();
+               strlinea += listaPalabras.get(i).getPalabra() + " ";
            }
        }
        return strlinea;
@@ -82,6 +101,7 @@ public class Lexico {
     
     public void tablaSimbolos(String linea, int numeroLinea){
         escanerSparte = new Scanner(linea);
+        Simbolos simbolo = new Simbolos();
         String tipo;
         int i;
         while (escanerSparte.hasNext()) { 
@@ -90,24 +110,24 @@ public class Lexico {
             String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"" };
             if(pal.contains(signosCompl[0]) || pal.contains(signosCompl[1]) || pal.contains(signosCompl[2]) || pal.contains(signosCompl[3] ))
             {
-                String newStr = separar(signosCompl,pal);
+                String newStr = simbolo.separar(signosCompl,pal);
                 Scanner escanNewStr = new Scanner(newStr);
                 while(escanNewStr.hasNext())
                 {
                     String newPal=escanNewStr.next();
-                    tipo = tipoPalabra(newPal);
+                    tipo = simbolo.tipoPalabra(newPal);
                     Palabra palabra=new Palabra(numeroLinea, tipo, newPal);
                     listaPalabras.add(palabra);
                 }
             }
             else if(pal.contains(signos[0]) || pal.contains(signos[1]) || pal.contains(signos[2]) || pal.contains(signos[3]) || pal.contains(signos[4]) || pal.contains(signos[5]) || pal.contains(signos[6]) || pal.contains(signos[7])|| pal.contains(signos[8]))
             {
-                String newStr = separar(signos,pal);
+                String newStr = simbolo.separar(signos,pal);
                 Scanner escanNewStr = new Scanner(newStr);
                 while(escanNewStr.hasNext())
                 {
                     String newPal=escanNewStr.next();
-                    tipo = tipoPalabra(newPal);
+                    tipo = simbolo.tipoPalabra(newPal);
                     Palabra palabra=new Palabra(numeroLinea, tipo, newPal);
                     listaPalabras.add(palabra);
                 }
@@ -115,7 +135,7 @@ public class Lexico {
             }
             else
             {
-                tipo = tipoPalabra(pal);
+                tipo = simbolo.tipoPalabra(pal);
                 Palabra palabra=new Palabra(numeroLinea, tipo, pal);
                 listaPalabras.add(palabra);
             }
@@ -123,72 +143,72 @@ public class Lexico {
         
     }
 
-    private String tipoPalabra(String palabra) {
-        String tipoPal="";
-        Simbolos simbolo=new Simbolos();
-        if(simbolo.definiTipo(palabra, simbolo.palabrasReservadas))
-        {
-            tipoPal="RESERVADA";
-        }
-        else if(simbolo.definiTipo(palabra, simbolo.operadoresMatemáticos))
-        {
-            tipoPal="MATHOPERADOR";
-        }
-        else if(simbolo.definiTipo(palabra, simbolo.caracteresEspeciales))
-        {
-            tipoPal="CARACTERESP";
-        }
-        else if(simbolo.definiTipo(palabra, simbolo.operadoresRelComplejos))
-        {
-            tipoPal="OPERADORRELCOMPLEJO";
-        }
-        else if(simbolo.definiTipo(palabra, simbolo.operadoresRel))
-        {
-            tipoPal="OPERADORREL";
-        }
-        else if(simbolo.validaNumeros(palabra))
-        {
-            tipoPal="NUMERICO";
-        }
-        else
-        {
-            tipoPal="IDENTIFICADOR";
-        }
-        return tipoPal;
-    }
-
-    private String separar(String[] signos, String pal) {
-        String newPal = pal;
-        
-        switch(signos[0])
-        {
-            case "=" :
-                //String [] signos = {"=" , "(" , ")" , "\"" , "+" , "-" , "*" , "/" , "^"};
-                if(pal.contains(signos[0])){ newPal= newPal.replace("=", " = ");}
-                if(pal.contains(signos[1])){ newPal= newPal.replace("(", " ( ");}
-                if(pal.contains(signos[2])){ newPal= newPal.replace(")", " ) ");}
-                if(pal.contains(signos[3])){ newPal= newPal.replace("\"", " \" ");}
-                if(pal.contains(signos[4])){ newPal= newPal.replace("+", " + ");}
-                if(pal.contains(signos[5])){ newPal= newPal.replace("-", " - ");}
-                if(pal.contains(signos[6])){ newPal= newPal.replace("*", " * ");}
-                if(pal.contains(signos[7])){ newPal= newPal.replace("/", " / ");}
-                if(pal.contains(signos[8])){ newPal= newPal.replace("^", " ^ ");}
-                break;
-            case ">=" :
-                //String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"" };
-                if(pal.contains(signos[0])){ newPal= newPal.replace(">=", " >= ");}
-                if(pal.contains(signos[1])){ newPal= newPal.replace("<=", " <= ");}
-                if(pal.contains(signos[2])){ newPal= newPal.replace("<>", " <> ");}
-                if(pal.contains(signos[3])){ newPal= newPal.replace("==", " == ");}
-                if(pal.contains(signos[4])){ newPal= newPal.replace("(", " ( ");}
-                if(pal.contains(signos[5])){ newPal= newPal.replace(")", " ) ");}
-                if(pal.contains(signos[6])){ newPal= newPal.replace("\"", " \" ");}
-                break;
-                    
-        }
-        
-        return newPal;
-    }
+//    private String tipoPalabra(String palabra) {
+//        String tipoPal="";
+//        Simbolos simbolo=new Simbolos();
+//        if(simbolo.definiTipo(palabra, simbolo.palabrasReservadas))
+//        {
+//            tipoPal="RESERVADA";
+//        }
+//        else if(simbolo.definiTipo(palabra, simbolo.operadoresMatemáticos))
+//        {
+//            tipoPal="MATHOPERADOR";
+//        }
+//        else if(simbolo.definiTipo(palabra, simbolo.caracteresEspeciales))
+//        {
+//            tipoPal="CARACTERESP";
+//        }
+//        else if(simbolo.definiTipo(palabra, simbolo.operadoresRelComplejos))
+//        {
+//            tipoPal="OPERADORRELCOMPLEJO";
+//        }
+//        else if(simbolo.definiTipo(palabra, simbolo.operadoresRel))
+//        {
+//            tipoPal="OPERADORREL";
+//        }
+//        else if(simbolo.validaNumeros(palabra))
+//        {
+//            tipoPal="NUMERICO";
+//        }
+//        else
+//        {
+//            tipoPal="IDENTIFICADOR";
+//        }
+//        return tipoPal;
+//    }
+//
+//    private String separar(String[] signos, String pal) {
+//        String newPal = pal;
+//        
+//        switch(signos[0])
+//        {
+//            case "=" :
+//                //String [] signos = {"=" , "(" , ")" , "\"" , "+" , "-" , "*" , "/" , "^"};
+//                if(pal.contains(signos[0])){ newPal= newPal.replace("=", " = ");}
+//                if(pal.contains(signos[1])){ newPal= newPal.replace("(", " ( ");}
+//                if(pal.contains(signos[2])){ newPal= newPal.replace(")", " ) ");}
+//                if(pal.contains(signos[3])){ newPal= newPal.replace("\"", " \" ");}
+//                if(pal.contains(signos[4])){ newPal= newPal.replace("+", " + ");}
+//                if(pal.contains(signos[5])){ newPal= newPal.replace("-", " - ");}
+//                if(pal.contains(signos[6])){ newPal= newPal.replace("*", " * ");}
+//                if(pal.contains(signos[7])){ newPal= newPal.replace("/", " / ");}
+//                if(pal.contains(signos[8])){ newPal= newPal.replace("^", " ^ ");}
+//                break;
+//            case ">=" :
+//                //String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"" };
+//                if(pal.contains(signos[0])){ newPal= newPal.replace(">=", " >= ");}
+//                if(pal.contains(signos[1])){ newPal= newPal.replace("<=", " <= ");}
+//                if(pal.contains(signos[2])){ newPal= newPal.replace("<>", " <> ");}
+//                if(pal.contains(signos[3])){ newPal= newPal.replace("==", " == ");}
+//                if(pal.contains(signos[4])){ newPal= newPal.replace("(", " ( ");}
+//                if(pal.contains(signos[5])){ newPal= newPal.replace(")", " ) ");}
+//                if(pal.contains(signos[6])){ newPal= newPal.replace("\"", " \" ");}
+//                break;
+//                    
+//        }
+//        
+//        return newPal;
+//    }
 
     /*public AutomataPrograma getAutomata() {
         return automata;

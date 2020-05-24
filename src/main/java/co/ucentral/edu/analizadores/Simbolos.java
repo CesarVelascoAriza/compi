@@ -13,7 +13,7 @@ public class Simbolos {
     
     public String[] palabrasReservadas={"prog","haga","lea","escriba",
 
-        "variable","var", "inicio" ,"fprogram","entero", "real", "verdadero", "falso", "cadena" ,"y"
+        "variable","var", "inicio" ,"fprogram","entero", "real","booleano", "verdadero", "falso", "cadena" ,"y"
 
     ,"o", "no", "mientras", "haga", "fmientras","si", "sin", "fsi"};
     
@@ -53,5 +53,71 @@ public class Simbolos {
             return true;
         return false;
     }
+    
+    public String tipoPalabra(String palabra) {
+        String tipoPal="";
+        if(definiTipo(palabra, palabrasReservadas))
+        {
+            tipoPal="RESERVADA";
+        }
+        else if(definiTipo(palabra, operadoresMatemáticos))
+        {
+            tipoPal="MATHOPERADOR";
+        }
+        else if(definiTipo(palabra, caracteresEspeciales))
+        {
+            tipoPal="CARACTERESP";
+        }
+        else if(definiTipo(palabra, operadoresRelComplejos))
+        {
+            tipoPal="OPERADORRELCOMPLEJO";
+        }
+        else if(definiTipo(palabra, operadoresRel))
+        {
+            tipoPal="OPERADORREL";
+        }
+        else if(validaNumeros(palabra))
+        {
+            tipoPal="NUMERICO";
+        }
+        else
+        {
+            tipoPal="IDENTIFICADOR";
+        }
+        return tipoPal;
+    }
 
+    public String separar(String[] signos, String pal) {
+        String newPal = pal;
+        
+        switch(signos[0])
+        {
+            case "=" :
+                //String [] signos = {"=" , "(" , ")" , "\"" , "+" , "-" , "*" , "/" , "^"};
+                if(pal.contains(signos[0])){ newPal= newPal.replace("=", " = ");}
+                if(pal.contains(signos[1])){ newPal= newPal.replace("(", " ( ");}
+                if(pal.contains(signos[2])){ newPal= newPal.replace(")", " ) ");}
+                if(pal.contains(signos[3])){ newPal= newPal.replace("\"", " \" ");}
+                if(pal.contains(signos[4])){ newPal= newPal.replace("+", " + ");}
+                if(pal.contains(signos[5])){ newPal= newPal.replace("-", " - ");}
+                if(pal.contains(signos[6])){ newPal= newPal.replace("*", " * ");}
+                if(pal.contains(signos[7])){ newPal= newPal.replace("/", " / ");}
+                if(pal.contains(signos[8])){ newPal= newPal.replace("^", " ^ ");}
+                break;
+            case ">=" :
+                //String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"" };
+                if(pal.contains(signos[0])){ newPal= newPal.replace(">=", " >= ");}
+                if(pal.contains(signos[1])){ newPal= newPal.replace("<=", " <= ");}
+                if(pal.contains(signos[2])){ newPal= newPal.replace("<>", " <> ");}
+                if(pal.contains(signos[3])){ newPal= newPal.replace("==", " == ");}
+                if(pal.contains(signos[4])){ newPal= newPal.replace("(", " ( ");}
+                if(pal.contains(signos[5])){ newPal= newPal.replace(")", " ) ");}
+                if(pal.contains(signos[6])){ newPal= newPal.replace("\"", " \" ");}
+                break;
+                    
+        }
+        
+        return newPal;
+    }
+    
 }
