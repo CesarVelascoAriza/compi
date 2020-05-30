@@ -106,6 +106,10 @@ public class AutomataPrograma {
                 } else if (cadena.get(count).getPalabra().equals("entero")) {
                     count++;
                     q2();
+                } else if (cadena.get(count).getPalabra().equals("booleano")) {
+                    count++;
+                    q2();
+                
                 }else if (cadena.get(count).getPalabra().equals("si")) {
                     count++;
                     q2();

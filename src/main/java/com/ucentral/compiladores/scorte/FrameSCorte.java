@@ -6,6 +6,7 @@
 package com.ucentral.compiladores.scorte;
 
 import co.ucentral.edu.analizadores.Lexico;
+import co.ucentral.edu.analizadores.Semantico;
 import co.ucentral.edu.model.Palabra;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -21,11 +23,25 @@ import javax.swing.JOptionPane;
 public class FrameSCorte extends javax.swing.JFrame {
 
      private Lexico lexico;
+     private Semantico semantico;
+     ArrayList<Palabra> listaPalabras;
+     private boolean okSintactico;
     public FrameSCorte() {
         initComponents();
         lexico = new Lexico();
+        semantico = new Semantico();
+        listaPalabras = new ArrayList<>();
     }
 
+    public void settAreaRanalisis(JTextArea tAreaRanalisis) {
+        this.tAreaRanalisis = tAreaRanalisis;
+    }
+
+    public JTextArea gettAreaRanalisis() {
+        return tAreaRanalisis;
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -247,7 +263,49 @@ public class FrameSCorte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
-        // TODO add your handling code here:
+        if(!okSintactico)
+        {
+            tAreaRanalisis.setText(tAreaRanalisis.getText() +"\n" + "Fallas en Analizador Sintactico: No se puede iniciar el analizador Semántico");
+        }
+        else
+        {
+           int linea=0;
+            String strlinea="";
+            for (Palabra p : listaPalabras)
+            {
+                switch(p.getPalabra())
+                {
+                    case "variable":
+                    case "var":
+                       strlinea=lexico.traeLinea(p.getLinea());
+                       semantico.analizadorVariable(strlinea,p.getLinea());  
+                    break;
+                    case "escriba":
+                       strlinea=lexico.traeLinea(p.getLinea());
+                       semantico.analizadorEscriba(strlinea,p.getLinea()); 
+                       tAreaRanalisis.setText(tAreaRanalisis.getText() +"\n" + semantico.gettAEscriba());
+                    break;
+
+                    case "lea":
+                        strlinea=lexico.traeLinea(p.getLinea());
+                        semantico.analizadorLea(strlinea,p.getLinea());
+                    break;
+                    case "si":
+                    case "sin":
+                    case "fsi":
+                        strlinea=lexico.traeLinea(p.getLinea());
+                        semantico.analizadorSi(strlinea,p.getLinea());
+                    break;
+                    case "para":
+                        strlinea=lexico.traeLinea(p.getLinea());
+                        semantico.analizadorPara(strlinea,p.getLinea());
+                    break;
+
+                }
+            
+            } 
+        }  
+        
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -267,7 +325,7 @@ public class FrameSCorte extends javax.swing.JFrame {
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
        try {
             if (!tAareaImpresion.getText().isEmpty()) {
-                ArrayList<Palabra> listaPalabras = new ArrayList<>();
+//                ArrayList<Palabra> listaPalabras = new ArrayList<>();
                 listaPalabras = lexico.analizadorLexico(tAareaImpresion.getText());
                 tAreaRanalisis.setText(lexico.getMensaje());
                 if (!lexico.getAutomata().getErrorSintactico().isEmpty()) {
@@ -277,7 +335,7 @@ public class FrameSCorte extends javax.swing.JFrame {
                 } else {
 
                     tAreaRanalisis.setText(tAreaRanalisis.getText() + "\n" + lexico.getAutomata().getMensaje());
-
+                    okSintactico=true;
                 }
 
                 String mostrarTabla[][] = new String[listaPalabras.size()][3];
