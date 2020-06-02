@@ -15,7 +15,7 @@ public class Simbolos {
 
         "variable","var", "inicio" ,"fprogram","entero", "real","booleano", "verdadero", "falso", "cadena" ,"y"
 
-    ,"o", "no", "mientras", "haga", "fmientras","si", "sin", "fsi"};
+    ,"o", "no", "mientras", "haga", "fmientras","si", "sin", "fsi","fsin"};
     
     public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^" , "="};
     

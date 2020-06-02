@@ -71,6 +71,7 @@ public class FrameSCorte extends javax.swing.JFrame {
         tAreaRanalisis = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Compilador Compi 3");
 
         jLabel1.setText("Ruta del archivo");
 
@@ -342,7 +343,17 @@ public class FrameSCorte extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
+        tAreaRanalisis.setText("");
+        txfRutaArchivo.setText("");
+        tAareaImpresion.setText("");
+        tbSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object[][] {
+                             null,null,null
+                        },
+                        new String[]{
+                            "Nombre", "Linea", "Tipo"
+                        }
+                ));
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed

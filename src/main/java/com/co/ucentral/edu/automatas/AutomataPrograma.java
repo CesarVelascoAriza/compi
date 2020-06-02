@@ -72,6 +72,9 @@ public class AutomataPrograma {
             if (cadena.get(count).getTipo().equals("IDENTIFICADOR")) {
                 count++;
                 q2();
+            }else if (cadena.get(count).getTipo().equals("NUMERICO")) {
+                count++;
+                q2();
             } else {
                 estadoError(cadena, error);
             }
@@ -118,6 +121,9 @@ public class AutomataPrograma {
                 }else if (cadena.get(count).getPalabra().equals("fsin")) {
                     count++;
                     q2();
+                }else if (cadena.get(count).getPalabra().equals("fsi")) {
+                    count++;
+                    q2();
                 }else if (cadena.get(count).getPalabra().equals("mientras")) {
                     count++;
                     q2();
@@ -144,8 +150,13 @@ public class AutomataPrograma {
                 q1();
             }else if (cadena.get(count).getTipo().equals("OPERADORRELCOMPLEJO")) {
                 count++;
-            	q4();
-            } 
+            	q1();
+            }else if (cadena.get(count).getTipo().equals("NUMERICO")) {
+                q1();
+            }else if (cadena.get(count).getTipo().equals("OPERADORREL")) {
+                count++;
+                q2();
+            }
             else {
                 estadoError(cadena, error);
             }
