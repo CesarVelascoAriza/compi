@@ -1,0 +1,19 @@
+
+prog cuandrado
+var num entero
+variable cu entero
+var isbool booleano
+variable num2 real
+inicio
+escriba ( " Digite el valor " )
+lea ( num )
+escriba num
+escriba ("Digite el numero float")
+lea num2
+escriba ("El numero es" num2)
+cu = num * num
+escriba ( " El cuadrado del numero es ")
+escriba ( cu )
+escriba isbool
+
+fprogram

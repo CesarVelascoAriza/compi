@@ -8,6 +8,7 @@ package com.ucentral.compiladores.scorte;
 import co.ucentral.edu.analizadores.Lexico;
 import co.ucentral.edu.analizadores.Semantico;
 import co.ucentral.edu.model.Palabra;
+import co.ucentral.edu.model.Variables;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -262,47 +263,80 @@ public class FrameSCorte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
+        ArrayList<Variables> variables = semantico.getListaVar();
+        ArrayList<Palabra> palabra = new ArrayList<Palabra>();
+        Palabra p= new Palabra();
         if(!okSintactico)
         {
             tAreaRanalisis.setText(tAreaRanalisis.getText() +"\n" + "Fallas en Analizador Sintactico: No se puede iniciar el analizador Semántico");
         }
         else
         {
-           int linea=0;
-            String strlinea="";
-            for (Palabra p : listaPalabras)
-            {
-                switch(p.getPalabra())
-                {
-                    case "variable":
-                    case "var":
-                       strlinea=lexico.traeLinea(p.getLinea());
-                       semantico.analizadorVariable(strlinea,p.getLinea());  
-                    break;
-                    case "escriba":
-                       strlinea=lexico.traeLinea(p.getLinea());
-                       semantico.analizadorEscriba(strlinea,p.getLinea()); 
-                       tAreaRanalisis.setText(tAreaRanalisis.getText() +"\n" + semantico.gettAEscriba());
-                    break;
-
-                    case "lea":
-                        strlinea=lexico.traeLinea(p.getLinea());
-                        semantico.analizadorLea(strlinea,p.getLinea());
-                    break;
-                    case "si":
-                    case "sin":
-                    case "fsi":
-                        strlinea=lexico.traeLinea(p.getLinea());
-                        semantico.analizadorSi(strlinea,p.getLinea());
-                    break;
-                    case "para":
-                        strlinea=lexico.traeLinea(p.getLinea());
-                        semantico.analizadorPara(strlinea,p.getLinea());
-                    break;
-
-                }
+            int linea=1;
+            String strlinea=tAareaImpresion.getText();
+            String analizaLinea = "";
+            ArrayList<String> listLinea = new ArrayList();
+            listLinea = semantico.getArray(strlinea);
             
-            } 
+            while(listLinea.size()>=linea)
+            {
+                analizaLinea = listLinea.get(linea);
+                palabra = semantico.tablaSimbolos(analizaLinea, linea);
+                
+                p=palabra.get(0);
+                
+                if(!p.getTipo().equals("IDENTIFICADOR"))
+                {
+                    switch(p.getPalabra())
+                    {
+                        case "variable":
+                        case "var":
+                           //strlinea=lexico.traeLinea(p.getLinea());
+                           semantico.analizadorVariable(analizaLinea,linea);
+                           linea++;
+                        break;
+                        case "escriba":
+                           //strlinea=lexico.traeLinea(p.getLinea());
+                           semantico.analizadorEscriba(analizaLinea,linea); 
+                           tAreaRanalisis.setText(tAreaRanalisis.getText() +"\n" + semantico.gettAEscriba());
+                           linea++;
+                        break;
+
+                        case "lea":
+                            //strlinea=lexico.traeLinea(p.getLinea());
+                            semantico.analizadorLea(analizaLinea,linea);
+                            linea++;
+                        break;
+                        case "si":
+                        case "sin":
+                        case "fsi":
+                            //strlinea=lexico.traeLinea(p.getLinea());
+                            semantico.analizadorSi(analizaLinea,linea);
+                            
+                        break;
+                        case "para":
+                            //strlinea=lexico.traeLinea(p.getLinea());
+                            semantico.analizadorPara(analizaLinea,linea);
+                        break;
+                        case "inicio":
+                        case "prog":
+                        case "fprogram":
+                            linea++;
+                        break;
+                    }
+                }
+                else
+                {
+                    for(Variables v : variables)
+                    {
+                        if(p.getPalabra().equals(v.getIdentificador()))
+                        {
+                            System.out.println(p.getPalabra() + " Vamos a asignarle un valor");
+                            linea++;
+                        }
+                    }
+                }
+            }
         }  
         
     }//GEN-LAST:event_btnEjecutarActionPerformed
