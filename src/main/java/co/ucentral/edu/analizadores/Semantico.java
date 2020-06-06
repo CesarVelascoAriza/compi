@@ -9,6 +9,7 @@ import co.ucentral.edu.analizadores.Simbolos;
 import co.ucentral.edu.model.Palabra;
 import co.ucentral.edu.analizadores.Lexico;
 import co.ucentral.edu.model.Variables;
+import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 import com.ucentral.compiladores.scorte.FrameSCorte;
 import java.awt.TextArea;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showInputDialog;
+import org.w3c.dom.NodeList;
 /**
  *
  * @author rosemberg
@@ -96,6 +98,8 @@ public class Semantico {
        String defaultval = ""; 
        String _defaultval="";
        boolean esVar=false;
+       String _pInt = "";
+       String _pDec = "";
        listaLinea=tablaSimbolos(strlinea, linea);
        
        for (Palabra p : listaLinea)
@@ -124,18 +128,48 @@ public class Semantico {
                                 
                             break;
                             case "real":
+                                if(!_defaultval.contains("."))
+                                {
+                                    defaultval=_defaultval+".0";
+                                    lv.setValor(defaultval);
+                                    esVar=true;
+                                }
+                                else
+                                {
+                                    String[] _real= _defaultval.split("\\.");
+                                    _pInt = _real[0];
+                                    _pDec = _real[1];
+                                    if(simbolo.validaNumeros(_pInt) && simbolo.validaNumeros(_pDec))
+                                    {
+                                        defaultval=_defaultval;
+                                        lv.setValor(defaultval);
+                                        esVar=true;
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(null, "DATO REAL INVALIDO");
+                                    }
+                                }
                                 
                             break;
                             case "booleano":
-                                
+                                if(_defaultval.equals("verdadero") || _defaultval.equals("falso"))
+                                {
+                                    defaultval=_defaultval;
+                                    lv.setValor(defaultval);
+                                    esVar=true;
+                                }
                             break;
                             case "cadena":
+                                defaultval=_defaultval;
+                                lv.setValor(defaultval);
+                                esVar=true;
                                 
                             break;
                        }
                    }
-                   if(!esVar)
-                    JOptionPane.showMessageDialog(null, "No hay variable asignada ");
+//                   if(!esVar)
+//                    JOptionPane.showMessageDialog(null, "No hay variable asignada para "+p.getPalabra());
                }
              
             }
@@ -240,10 +274,27 @@ public class Semantico {
         }
         return listaPalabras;
     }
+    
+    
+    public ArrayList<String> getArray(String strlinea) {
+        ArrayList<String> listLineas= new ArrayList();
+        
+        String[] separar = strlinea.split("\n");
+        for (int i=0;i< separar.length; i++)
+        {
+            listLineas.add(separar[i]);
+        }
+        
+        return listLineas;
+    }
+    
 
     public String gettAEscriba() {
         return tAEscriba;
     }
-    
+
+    public ArrayList<Variables> getListaVar() {
+        return listaVar;
+    }   
     
 }
