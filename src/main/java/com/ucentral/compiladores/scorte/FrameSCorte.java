@@ -282,8 +282,7 @@ public class FrameSCorte extends javax.swing.JFrame {
             ArrayList<String> listLinea = new ArrayList();
             listLinea = semantico.getArray(strlinea);
             
-           mientras.extraerEjecucion(listaPalabras);
-           while(listLinea.size()>=linea)
+            while(listLinea.size()>=linea)
             {
                 analizaLinea = listLinea.get(linea);
                 palabra = semantico.tablaSimbolos(analizaLinea, linea);
