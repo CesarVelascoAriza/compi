@@ -187,9 +187,11 @@ public class Semantico {
     }
 
     public void analizadorPara(String strlinea, int linea) {
-         System.out.println(strlinea);
+       System.out.println(strlinea);
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
        listaLinea=tablaSimbolos(strlinea, linea);
+       
+       
     }
     
     public ArrayList<Palabra> tablaSimbolos(String linea, int numeroLinea){

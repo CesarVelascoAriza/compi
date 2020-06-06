@@ -5,6 +5,7 @@
  */
 package com.ucentral.compiladores.scorte;
 
+import co.ucentral.edu.analizadores.AnalizadorMientras;
 import co.ucentral.edu.analizadores.Lexico;
 import co.ucentral.edu.analizadores.Semantico;
 import co.ucentral.edu.model.Palabra;
@@ -26,11 +27,13 @@ public class FrameSCorte extends javax.swing.JFrame {
      private Semantico semantico;
      ArrayList<Palabra> listaPalabras;
      private boolean okSintactico;
+     private AnalizadorMientras mientras;
     public FrameSCorte() {
         initComponents();
         lexico = new Lexico();
         semantico = new Semantico();
         listaPalabras = new ArrayList<>();
+        mientras = new AnalizadorMientras();
     }
 
     public void settAreaRanalisis(JTextArea tAreaRanalisis) {
@@ -269,6 +272,8 @@ public class FrameSCorte extends javax.swing.JFrame {
         }
         else
         {
+            
+           mientras.extraerEjecucion(listaPalabras);
            int linea=0;
             String strlinea="";
             for (Palabra p : listaPalabras)
@@ -296,8 +301,9 @@ public class FrameSCorte extends javax.swing.JFrame {
                         strlinea=lexico.traeLinea(p.getLinea());
                         semantico.analizadorSi(strlinea,p.getLinea());
                     break;
-                    case "para":
+                    case "mientras":
                         strlinea=lexico.traeLinea(p.getLinea());
+                        
                         semantico.analizadorPara(strlinea,p.getLinea());
                     break;
 
