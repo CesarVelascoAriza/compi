@@ -109,6 +109,12 @@ public class AutomataPrograma {
                 } else if (cadena.get(count).getPalabra().equals("booleano")) {
                     count++;
                     q2();
+                } else if (cadena.get(count).getPalabra().equals("verdadero")) {
+                    count++;
+                    q2();
+                } else if (cadena.get(count).getPalabra().equals("falso")) {
+                    count++;
+                    q2();
                 } else if (cadena.get(count).getPalabra().equals("real")) {
                     count++;
                     q2();

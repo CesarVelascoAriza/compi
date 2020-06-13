@@ -10,6 +10,7 @@ import co.ucentral.edu.model.Palabra;
 import co.ucentral.edu.analizadores.Lexico;
 import co.ucentral.edu.model.Variables;
 import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
+import com.sun.tools.javac.util.Convert;
 import com.ucentral.compiladores.scorte.FrameSCorte;
 import java.awt.TextArea;
 import java.util.ArrayList;
@@ -201,7 +202,7 @@ public class Semantico {
                        defaultval="0";
                    break;
                    case "booleano":
-                       defaultval="false";
+                       defaultval="falso";
                    break;
                    case "cadena":
                        defaultval="";
@@ -215,15 +216,146 @@ public class Semantico {
     }
 
     public void analizadorSi(String strlinea, int linea) {
-        System.out.println(strlinea);
+       System.out.println(strlinea);
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
-       listaLinea=tablaSimbolos(strlinea, linea); 
+       listaLinea=tablaSimbolos(strlinea, linea);
+       
+       
+       
     }
 
     public void analizadorPara(String strlinea, int linea) {
          System.out.println(strlinea);
        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
        listaLinea=tablaSimbolos(strlinea, linea);
+    }
+    
+    public void analizadorAsignacion(String strlinea, int linea)
+    {
+        System.out.println(strlinea);
+        ArrayList<Palabra> listaLinea=new ArrayList<Palabra>();
+        Variables variable=new Variables();
+        listaLinea=tablaSimbolos(strlinea, linea);
+        
+        float valorVar=0;//Valor de la variable 
+        float _valorSumando=0;
+        float _valorSumandoB=0;
+        String valorEntrega="";
+        
+        String [] ArrayLinea=strlinea.split(" ");
+        
+        switch(ArrayLinea[1])
+        {
+            case "+=":
+                System.out.println("Igualador Complejo" + ArrayLinea[1]);
+                variable=getVariable(listaLinea.get(0).getPalabra());
+                switch (variable.getTipo())
+                {
+                    case "entero":
+                        float valor=0; //Valor resultante de la operación
+                        valorVar=Integer.parseInt(variable.getValor());//Valor de la variable 
+                         _valorSumando=0;
+                        Variables varMas = new Variables();//Captura de valor Operador
+                        varMas=getVariable(listaLinea.get(2).getPalabra());
+                        if(varMas.getValor()!=null)
+                        {
+                            _valorSumando=Integer.parseInt(varMas.getValor());
+                        }
+                        else
+                        {
+                            _valorSumando=Integer.parseInt(listaLinea.get(2).getPalabra());
+                        }
+                        
+                        valor=operacionMath(valorVar,_valorSumando,"+");
+                        valorEntrega = Integer.toString((int)valor);
+                        sendResult(listaLinea.get(0).getPalabra(),valorEntrega);
+                        
+                    break;
+                    case "real":
+                        valor=0; //Valor resultante de la operación
+                        valorVar=Integer.parseInt(variable.getValor());//Valor de la variable 
+                         _valorSumando=0;
+                        varMas = new Variables();//Captura de valor Operador
+                        varMas=getVariable(listaLinea.get(2).getPalabra());
+                        if(varMas!=null)
+                        {
+                            _valorSumando=Integer.parseInt(varMas.getValor());
+                        }
+                        else
+                        {
+                            _valorSumando=Integer.parseInt(listaLinea.get(2).getPalabra());
+                        }
+                        
+                        valor=operacionMath(valorVar,_valorSumando,"+");
+                        valorEntrega = String.valueOf(valor);
+                        sendResult(listaLinea.get(0).getPalabra(),valorEntrega);
+                    break;
+                }
+            break;
+            case "=":
+                if(strlinea.contains("+") || strlinea.contains("-") || strlinea.contains("*") || strlinea.contains("/") || strlinea.contains("^"))
+                {
+                    System.out.println("igualador simple: "+ArrayLinea[1]);
+                    variable=getVariable(listaLinea.get(0).getPalabra());
+                    switch (variable.getTipo())
+                    {
+                        case "entero":
+                            float valor=0; //Valor resultante de la operación
+                            valorVar=Integer.parseInt(variable.getValor());//Valor de la variable 
+                             _valorSumando=0;
+                            Variables varA = new Variables();//Captura de valor Operador a
+                            Variables varB = new Variables();//Captura de valor Operador a
+                            varA=getVariable(listaLinea.get(2).getPalabra());
+                            varB=getVariable(listaLinea.get(4).getPalabra());
+
+                            _valorSumando=(varA.getValor()!=null)? Integer.parseInt(varA.getValor()) : Integer.parseInt(listaLinea.get(2).getPalabra());
+                            _valorSumandoB=(varB.getValor()!=null)? Integer.parseInt(varB.getValor()) : Integer.parseInt(listaLinea.get(4).getPalabra());
+
+                            valor=operacionMath(_valorSumando,_valorSumandoB,listaLinea.get(3).getPalabra());
+                            valorEntrega = Integer.toString((int)valor);
+                            sendResult(listaLinea.get(0).getPalabra(),valorEntrega);
+
+                        break;
+                        case "real":
+                            valor=0; //Valor resultante de la operación
+                            valorVar=Integer.parseInt(variable.getValor());//Valor de la variable 
+                             _valorSumando=0;
+                            varA = new Variables();//Captura de valor Operador a
+                            varB = new Variables();//Captura de valor Operador a
+                            varA=getVariable(listaLinea.get(2).getPalabra());
+                            varB=getVariable(listaLinea.get(4).getPalabra());
+
+                            _valorSumando=(varA.getValor()!=null)? Integer.parseInt(varA.getValor()) : Integer.parseInt(listaLinea.get(2).getPalabra());
+                            _valorSumandoB=(varB.getValor()!=null)? Integer.parseInt(varB.getValor()) : Integer.parseInt(listaLinea.get(4).getPalabra());
+
+                            valor=operacionMath(_valorSumando,_valorSumandoB,listaLinea.get(3).getPalabra());
+                            valorEntrega = String.valueOf(valor);
+                            sendResult(listaLinea.get(0).getPalabra(),valorEntrega);
+                        break;
+                    }
+                 
+                }
+                else
+                {
+                    System.out.println("igualador simple: "+ArrayLinea[1]);
+                    variable=getVariable(listaLinea.get(0).getPalabra());
+                    switch (variable.getTipo())
+                    {
+                        case "entero":
+                            sendResult(variable.getIdentificador(), listaLinea.get(2).getPalabra());
+                        break;
+                        case "real":
+                            sendResult(variable.getIdentificador(), listaLinea.get(2).getPalabra());
+                        break;
+                        case "booleano":
+                            sendResult(variable.getIdentificador(), listaLinea.get(2).getPalabra());    
+                        break;
+                    }       
+                }
+                
+                
+            break;
+        }
     }
     
     public ArrayList<Palabra> tablaSimbolos(String linea, int numeroLinea){
@@ -237,8 +369,8 @@ public class Semantico {
         while (escanerSparte.hasNext()) { 
             String pal=escanerSparte.next();
             String [] signos = {"=" , "(" , ")" , "\"" , "+" , "-" , "*" , "/" , "^"};
-            String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"" };
-            if(pal.contains(signosCompl[0]) || pal.contains(signosCompl[1]) || pal.contains(signosCompl[2]) || pal.contains(signosCompl[3] ))
+            String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"", "+=" };
+            if(pal.contains(signosCompl[0]) || pal.contains(signosCompl[1]) || pal.contains(signosCompl[2]) || pal.contains(signosCompl[3]) || pal.contains(signosCompl[4]) || pal.contains(signosCompl[5]) || pal.contains(signosCompl[6]) || pal.contains(signosCompl[7]))
             {
                 String newStr = simbolo.separar(signosCompl,pal);
                 Scanner escanNewStr = new Scanner(newStr);
@@ -273,6 +405,60 @@ public class Semantico {
         return listaPalabras;
     }
     
+    float operacionMath(float a, float b, String op) {
+        float r;
+        switch (op) {
+            case "+":
+                r = (a + b);
+                break;
+            case "-":
+                r = (a - b);
+                break;
+            case "*":
+                r = a * b;
+                break;
+            case "/":
+                r = (a / b);
+                break;
+            case "^":
+                r = (float) Math.pow(a, b);
+                break;
+            default:
+                r = Float.NaN; // Error....
+        }
+        return r;
+    }
+    
+    
+    public Variables getVariable(String identificador)
+    {
+        Variables var=new Variables();
+//        String ident="";
+//        String tipo="";
+//        String valor="";
+        for (Variables v : listaVar )
+        {
+            if(v.getIdentificador().equals(identificador))
+            {
+                var.setIdentificador(v.getIdentificador());
+                var.setTipo(v.getTipo());
+                var.setValor(v.getValor());
+                
+            }
+        }
+        
+        return var;
+    }
+    
+    
+    public void sendResult(String identificador, String valor)
+    {
+        for (Variables v:listaVar)
+        {
+            if(v.getIdentificador().equals(identificador))
+            v.setValor(valor);
+        }
+    }
     
     public ArrayList<String> getArray(String strlinea) {
         ArrayList<String> listLineas= new ArrayList();

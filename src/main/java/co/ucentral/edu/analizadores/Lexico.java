@@ -42,51 +42,10 @@ public class Lexico {
         //automata= new AutomataPrograma(listaPalabras);
         mensaje="-------------Termina analisis lexico --------------";
         automata= new AutomataPrograma(listaPalabras);
-//        if(automata.isEstadoCadena())
-//            analizarInstrucción(listaPalabras);
         
         return listaPalabras;
     }
-    
-//    public void analizarInstrucción(ArrayList<Palabra> listaPalabras){
-//        int linea=0;
-//        String strlinea="";
-//        for (Palabra p : listaPalabras)
-//        {
-//            switch(p.getPalabra())
-//            {
-//                case "variable":
-//                case "var":
-//                   strlinea=traeLinea(p.getLinea());
-//                   semantico.analizadorVariable(strlinea,p.getLinea());  
-//                break;
-//                case "escriba":
-//                   strlinea=traeLinea(p.getLinea());
-//                   semantico.analizadorEscriba(strlinea,p.getLinea()); 
-//                   semantico.gettAEscriba();
-//                break;
-//                
-//                case "lea":
-//                    strlinea=traeLinea(p.getLinea());
-//                    semantico.analizadorLea(strlinea,p.getLinea());
-//                break;
-//                case "si":
-//                case "sin":
-//                case "fsi":
-//                    strlinea=traeLinea(p.getLinea());
-//                    semantico.analizadorSi(strlinea,p.getLinea());
-//                break;
-//                case "para":
-//                    strlinea=traeLinea(p.getLinea());
-//                    semantico.analizadorPara(strlinea,p.getLinea());
-//                break;
-//                    
-//            }
-//            
-//        }
-//        
-//    }
-    
+        
     public String traeLinea(int linea)
     {
         String strlinea = "";
@@ -108,8 +67,8 @@ public class Lexico {
         while (escanerSparte.hasNext()) { 
             String pal=escanerSparte.next();
             String [] signos = {"=" , "(" , ")" , "\"" , "+" , "-" , "*" , "/" , "^"};
-            String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"" };
-            if(pal.contains(signosCompl[0]) || pal.contains(signosCompl[1]) || pal.contains(signosCompl[2]) || pal.contains(signosCompl[3] ))
+            String [] signosCompl = { ">=" , "<=" , "<>" , "==" , "(" , ")" , "\"", "+="};
+            if(pal.contains(signosCompl[0]) || pal.contains(signosCompl[1]) || pal.contains(signosCompl[2]) || pal.contains(signosCompl[3]) || pal.contains(signosCompl[4]) || pal.contains(signosCompl[5]) || pal.contains(signosCompl[6]) || pal.contains(signosCompl[7]))
             {
                 String newStr = simbolo.separar(signosCompl,pal);
                 Scanner escanNewStr = new Scanner(newStr);

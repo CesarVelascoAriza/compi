@@ -313,11 +313,12 @@ public class FrameSCorte extends javax.swing.JFrame {
                         case "fsi":
                             //strlinea=lexico.traeLinea(p.getLinea());
                             semantico.analizadorSi(analizaLinea,linea);
-                            
+                            linea++;
                         break;
                         case "para":
                             //strlinea=lexico.traeLinea(p.getLinea());
                             semantico.analizadorPara(analizaLinea,linea);
+                            linea++;
                         break;
                         case "inicio":
                         case "prog":
@@ -333,6 +334,7 @@ public class FrameSCorte extends javax.swing.JFrame {
                         if(p.getPalabra().equals(v.getIdentificador()))
                         {
                             System.out.println(p.getPalabra() + " Vamos a asignarle un valor");
+                            semantico.analizadorAsignacion(analizaLinea,linea);
                             linea++;
                         }
                     }

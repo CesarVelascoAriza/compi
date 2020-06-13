@@ -17,7 +17,7 @@ public class Simbolos {
 
     ,"o", "no", "mientras", "haga", "fmientras","si", "sin", "fsi","fsin"};
     
-    public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^" , "="};
+    public String[] operadoresMatemáticos={"*" , "+" , "-" , "/" , "^" , "=", "+="};
     
     public String[] caracteresEspeciales={"@" , "." , ";" , "," , "{" , "}" , "(" , ")" ,"\""};
     
@@ -113,6 +113,7 @@ public class Simbolos {
                 if(pal.contains(signos[4])){ newPal= newPal.replace("(", " ( ");}
                 if(pal.contains(signos[5])){ newPal= newPal.replace(")", " ) ");}
                 if(pal.contains(signos[6])){ newPal= newPal.replace("\"", " \" ");}
+                if(pal.contains(signos[7])){ newPal= newPal.replace("+=", " += ");}
                 break;
                     
         }
