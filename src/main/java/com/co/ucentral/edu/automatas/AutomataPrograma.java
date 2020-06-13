@@ -134,6 +134,10 @@ public class AutomataPrograma {
                     count++;
                     q2();
                 }
+                else if (cadena.get(count).getPalabra().equals("cadena")) {
+                    count++;
+                    q2();
+                }
                 else if (cadena.get(count).getPalabra().equals("fprogram")) {
                     estadoFinal();
                 } else {

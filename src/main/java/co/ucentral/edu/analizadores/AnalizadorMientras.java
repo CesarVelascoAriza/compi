@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import com.co.ucentral.edu.Stack.StackCoposition;
 
 public class AnalizadorMientras {
@@ -16,6 +18,11 @@ public class AnalizadorMientras {
 	private List<TemporalVariables> variables;
 	private boolean cuerpoMientras;
 	private String cuerpoM;
+	private int variableAsignable;
+	private Semantico semantico;
+	private int line;
+	private String textoAraAnalisi;
+	private TemporalVariables temp; 
 
 	public AnalizadorMientras() {
 		pila = new StackCoposition();
@@ -24,6 +31,10 @@ public class AnalizadorMientras {
 		variables = new ArrayList<TemporalVariables>();
 		cuerpoMientras = false;
 		cuerpoM = "";
+		variableAsignable = 0;
+		textoAraAnalisi = "";
+		temp =new TemporalVariables();
+
 	}
 
 	public void analizarCondicion() {
@@ -59,7 +70,7 @@ public class AnalizadorMientras {
 					condicion.add(palabra.trim());
 				}
 				if (cuerpoMientras) {
-					cuerpoM += palabra.trim();
+					cuerpoM += palabra;
 				}
 				palabra = "";
 
@@ -77,7 +88,7 @@ public class AnalizadorMientras {
 		}
 
 		if (!palabra.equals("haga") && cuerpoMientras && !palabra.equalsIgnoreCase("fmientras")) {
-			cuerpoM += palabra.trim();
+			cuerpoM += palabra.trim() + "\n";
 		}
 		if (palabra.equalsIgnoreCase("fmientras"))
 			cuerpoMientras = false;
@@ -90,14 +101,12 @@ public class AnalizadorMientras {
 		int var1 = 0;
 		int var2 = 0;
 		String compardor = null;
-		TemporalVariables temp = null;
+		 
 		for (String string : condicion) {
 			temp = valorVariables(string);
 			if (temp != null) {
-				if (temp.esVariableEntero()) {
-					var1 = temp.tipoVariableEntero();
-					// System.out.println(var1);
-				}
+				System.out.println(temp.getVariable());
+				System.out.println(temp.getValorentero());
 			} else {
 				if (Character.isDigit(string.charAt(0))) {
 					var2 = Integer.parseInt(string);
@@ -131,8 +140,8 @@ public class AnalizadorMientras {
 		System.out.println(var2);
 		System.out.println(compardor);
 		boolean co = true;
-		analisarCuerpo(cuerpoM);
-		while (co) {
+		int i = 0;
+		do {
 			if (compardor.equals("menorQue")) {
 				co = var1 < var2;
 			} else if (compardor.equals("menorIgual")) {
@@ -145,8 +154,15 @@ public class AnalizadorMientras {
 				co = var1 > var2;
 			}
 
-			var1++;
-		}
+			System.out.println(i++);
+			analizarCuerpo();
+			if ((var1 = analisarCuerpoOperaciones(cuerpoM)) != 0 && var1 != -1) {
+
+			} else {
+				break;
+			}
+
+		} while (co);
 
 	}
 
@@ -179,64 +195,277 @@ public class AnalizadorMientras {
 
 	}
 
-	private void analisarCuerpo(String lineaCuerpo) {
-		String p = "";
-		int var1 = 9;
-		int var2 = 9;
-		int var3 = 9;
-		if (lineaCuerpo.contains("lea")) {
+	private void analizarCuerpo() {
+		TemporalVariables temp = null;
+		ArrayList<String> listLinea = new ArrayList();
+		listLinea = semantico.getArray(cuerpoM);
+		for (String string : listLinea) {
+			if (string.contains("escriba")) {
+				System.out.println("Mierda escriba");
+				String mensaje = extraerMensajeEscriba(string);
+				JOptionPane.showMessageDialog(null, mensaje);
+			} else if (string.contains("lea")) {
+				String variable = extraerAsignacionImput(string);
+				temp=valorVariables(variable);
+				if(temp != null) {
+					String entero= JOptionPane.showInputDialog(null,"Valor para variable " +temp.getVariable() );
+					temp.setValorInput(entero, temp);
+				}
+				
+				
+			} else if (string.contains("if")) {
 
-		} else if (lineaCuerpo.contains("escriba")) {
+			} else {
+				analisarCuerpoOperaciones(string);
+			}
+		}
 
-		} else {
-			for (int i = 0; i < lineaCuerpo.length(); i++) {
+	}
 
-				System.out.printf(" %s ", lineaCuerpo.charAt(i));
-				if (lineaCuerpo.charAt(i) == '=') {
-					System.out.println("=" + p);
-					p = "";
-				}
-				if (lineaCuerpo.charAt(i) == '+') {
-					System.out.println("+" + p);
-					p = "";
-				}
-				if (lineaCuerpo.charAt(i) == '*') {
-					System.out.println("*" + p);
-					p = "";
-				}
-				if (lineaCuerpo.charAt(i) == '-') {
+	private String extraerAsignacionImput(String string) {
+		String variable = "";
+		boolean almacenamensaje = false;
+		for (int i = 0; i < string.length(); i++) {
 
-					System.out.println("-" + p);
-					p = "";
-				}
-				if (lineaCuerpo.contains("==")) {
-					System.out.println("=" +p);
-					p="";
-				}
-				if (lineaCuerpo.charAt(i) == '(') {
-					System.out.println("=" +p);
-					p="";
-				}
-				if (lineaCuerpo.charAt(i) == ')') {
-					System.out.println("=" +p);
-					p="";
-				}
-				if (lineaCuerpo.charAt(i) == '\"') {
-					System.out.println("=" +p);
-					p="";
-				}
-				p += lineaCuerpo.charAt(i);
+			if (string.charAt(i) == '(') {
+				System.out.println();
+				almacenamensaje = true;
 
 			}
-			System.out.println("P: " + p);
+			if (string.charAt(i) == ')') {
+				System.out.println();
+				almacenamensaje = false;
+
+			}
+			if (almacenamensaje) {
+				if (Character.isLetterOrDigit(string.charAt(i)))
+					variable += string.charAt(i);
+			}
+
+		}
+		return variable;
+	}
+
+	private String extraerMensajeEscriba(String string) {
+		String mensaje = "";
+		String mensajetemp="";
+		boolean almacenamensaje = false;
+		boolean variablestemporales= false;
+		TemporalVariables temp= null;
+		for (int i = 0; i < string.length(); i++) {
+
+			if (string.charAt(i) == '\"') {
+				System.out.println();
+				if (!almacenamensaje) {
+					almacenamensaje = true;
+				} else {
+					almacenamensaje = false;
+				}
+
+			}
+			if (almacenamensaje) {
+				
+					mensaje += string.charAt(i);
+			}
+
+		}
+		if(mensaje.contains("+")) {
+			Scanner s= new Scanner(mensaje);
+			while(s.hasNext()) {
+				
+				System.out.println(s.next());
+				temp = valorVariables(s.next().trim());
+				if(temp != null) {
+					if(temp.getTipo().equals("entero")) {
+						mensajetemp +=temp.getValorentero();	
+					}
+					if(temp.getTipo().equals("cadena"))
+						mensajetemp +=temp.getCadena();
+					if(temp.getTipo().equals("real"))
+						mensajetemp += " " +temp.getValorReal();
+					
+				}
+				
+			}
+			
+		}
+		System.out.println(mensajetemp );
+		mensaje += mensajetemp;
+		return mensaje;
+	}
+
+	private int analisarCuerpoOperaciones(String lineaCuerpo) {
+		String p = "";
+		String digito = "";
+		String operacion = "";
+		List<String> palabraReservada1 = new ArrayList<String>();
+		boolean operacionescribir;
+		String mesaje = "";
+		int var1 = -1;// variable que se declara para la asignacion
+		int var2 = -1;// variable para primer valor
+		int var3 = -1;// variable para el segundo valor
+		int var4 = -1;// variable para el tercer valor en caso de que lo tenga
+		int var5 = -9;// variable para numeros que esten en el cuerpo a ejecutar
+		int resultado = 0;
+		String vasiginacion = null;
+		String varuno = null;
+		// System.out.println("ANALIZAR CUERPO");
+
+		for (int i = 0; i < lineaCuerpo.length(); i++) {
+
+			if (Character.isLetterOrDigit(lineaCuerpo.charAt(i)))
+				p += lineaCuerpo.charAt(i);
+
+			if (lineaCuerpo.charAt(i) == '=') {
+				// System.out.println("entra a la condicion de asignacion : " + p);
+				vasiginacion = p;
+				var1 = variablesEstado(p, -1);
+				if (var1 == -1) {
+					var1 = 0;
+				}
+				// System.out.println("valor de la variable : " + var1);
+				p = "";
+			}
+			if (lineaCuerpo.charAt(i) == '+') {
+				// System.out.println("entra a la condicion de suma : " + p);
+				varuno = p;
+				var2 = variablesEstado(p, -1);
+				if (var2 == -1) {
+					var2 = 0;
+				}
+				if (varuno.equals(variableAsignable)) {
+					var1 = var2;
+				}
+				operacion = "SUMA";
+				// var2+=var2;
+				// System.out.println("valor de la suma : " + var2);
+				p = "";
+			}
+			if (lineaCuerpo.charAt(i) == '*') {
+				// System.out.println("entra a la condicion de suma : " + p);
+				var3 = variablesEstado(p, -1);
+				if (var3 == -1) {
+					var3 = 0;
+				}
+				operacion = "MULTIPLICACION";
+				// System.out.println("valor de la suma : " + var2);
+				p = "";
+			}
+			if (lineaCuerpo.charAt(i) == '-') {
+
+				// System.out.println("entra a la condicion de suma : " + p);
+				var4 = variablesEstado(p, -1);
+				if (var4 == -1) {
+					var4 = 0;
+				}
+				operacion = "RESTA";
+				System.out.println("valor de la suma   : " + var4);
+				p = "";
+			}
+			if (lineaCuerpo.charAt(i) == '\\') {
+				operacion = "DIVICION";
+				var5 = variablesEstado(p, -1);
+				if (var5 == -1) {
+					var5 = 0;
+				}
+				System.out.println("=" + p);
+				p = "";
+
+			}
+			if (lineaCuerpo.charAt(i) == '(') {
+				System.out.println("=" + p);
+				palabraReservada1.add(p);
+				p = "";
+
+			}
+			if (lineaCuerpo.charAt(i) == ')') {
+				System.out.println("=" + p);
+				p = "";
+			}
+
+			if (Character.isDigit(lineaCuerpo.charAt(i))) {
+				var5 = variablesEstado(p, -1);
+				if (var5 == -1) {
+					digito += p;
+					p = "";
+				}
+			}
+
+		}
+		// System.out.println(vasiginacion);
+		// System.out.println(variablesEstado(vasiginacion, tipoOeracion(operacion,
+		// var1,Integer.parseInt(digito))));
+		// System.out.println("P: " + var1 + " " + var2 + " " + var3 + " " + var4 + " "
+		// + var5 + " digito: " + digito);
+		System.out.println(palabraReservada1);
+
+		if (var1 != -1) {
+			resultado = variablesEstado(vasiginacion, tipoOeracion(operacion, var1, Integer.parseInt(digito)));
+		}
+		if (var2 != -1) {
+			resultado = variablesEstado(vasiginacion, tipoOeracion(operacion, var2, Integer.parseInt(digito)));
+		}
+		if (var3 != -1) {
+			resultado = variablesEstado(vasiginacion, tipoOeracion(operacion, var3, Integer.parseInt(digito)));
+		}
+		if (var4 != -1) {
+			resultado = variablesEstado(vasiginacion, tipoOeracion(operacion, var4, Integer.parseInt(digito)));
+		}
+		if (var5 != -1) {
+			resultado = variablesEstado(vasiginacion, tipoOeracion(operacion, var5, Integer.parseInt(digito)));
+		}
+		// resultado = variablesEstado(vasiginacion, tipoOeracion(operacion,
+		// var1,Integer.parseInt(digito)));
+		return resultado;
+
+	}
+
+	private int variablesEstado(String s, int valor) {
+		
+		temp = valorVariables(s);
+		if (temp != null && valor == -1) {
+			// System.out.println("Valor a retornar");
+			return temp.getValorentero();
+		} else if (temp != null && valor != -1) {
+			// System.out.println("Valor varible " + temp.getVariable());
+			temp.setValorentero(valor);
+			return temp.getValorentero();
+		} else {
+			return -1;
 		}
 	}
 
-	private void ejecutarCuerpo() {
-
+	private int tipoOeracion(String operacion, int var1, int var2) {
+		int resultado = 0;
+		if (operacion.equals("SUMA")) {
+			resultado = var1 + var2;
+		}
+		if (operacion.equals("RESTA")) {
+			resultado = var1 - var2;
+		}
+		if (operacion.equals("MULTIPLICACION")) {
+			resultado = var1 * var2;
+		}
+		if (operacion.equals("DIVICION")) {
+			resultado = var1 / var2;
+		}
+		return resultado;
 	}
 
-	private void sepacionesCaracteres(String caracter) {
-
+	public Semantico getSemantico() {
+		return semantico;
 	}
+
+	public void setSemantico(Semantico semantico) {
+		this.semantico = semantico;
+	}
+
+	public String getTextoAraAnalisi() {
+		return textoAraAnalisi;
+	}
+
+	public void setTextoAraAnalisi(String textoAraAnalisi) {
+		this.textoAraAnalisi = textoAraAnalisi;
+	}
+
 }
